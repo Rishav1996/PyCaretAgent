@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-This project, `pycaretagent`, appears to be a Python-based framework for agentic machine learning tasks, primarily focusing on classification and regression. It leverages `crewai` for agent orchestration and `pycaret` for streamlined machine learning workflows. The project is structured with separate modules for classification and regression, each intended to house `crewai` agents, their prompts, and associated tools. Currently, some core implementation files (like `README.md`, `agents.py`, `tools.py` in both `classification` and `regression` directories) appear to be placeholders, suggesting it might be a template or an early-stage project.
+This project, `pycaretagent`, appears to be a Python-based framework for agentic machine learning tasks, primarily focusing on classification and regression.   Currently, some core implementation files (like `README.md`, `agents.py`, `tools.py` in both `classification` and `regression` directories) appear to be placeholders, suggesting it might be a template or an early-stage project.
 
 ## Building and Running
 
@@ -32,5 +32,5 @@ This project, `pycaretagent`, appears to be a Python-based framework for agentic
 
 *   **Python Version:** Python 3.12 is the target development environment, as indicated by `.python-version` and `pyproject.toml`.
 *   **Dependency Management:** Dependencies are managed via `requirements.txt` for direct dependencies and `pyproject.toml` for project metadata and more comprehensive dependency management.
-*   **Agentic Architecture:** The project utilizes `crewai` for building intelligent agents, with clear separation of concerns for agents, prompts, and tools within `classification` and `regression` modules.
+
 *   **Machine Learning Framework:** `pycaret` is integrated for simplified machine learning model development and deployment.
