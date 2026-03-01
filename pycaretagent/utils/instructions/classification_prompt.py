@@ -5,13 +5,16 @@ Optimized for high-precision ML planning, execution, and reporting.
 
 from pycaretagent.utils.instructions.common_prompt import PYCARET_FUNCTIONS
 
+# Filter for classification-supported functions
+CLASSIFICATION_SUPPORTED_FUNCTIONS = [f for f in PYCARET_FUNCTIONS if "classification" in f.get("supported_tasks", [])]
+
 # --- PLANNER INSTRUCTIONS ---
 CLASSIFICATION_PLANNER_INSTRUCTIONS = (
     "ROLE: Lead ML Architect\n"
     "OBJECTIVE: Analyze the user's classification requirement and design a robust PyCaret pipeline.\n\n"
     "RESOURCES:\n"
-    "Use these supported PyCaret functions for your plan:\n"
-    f"{PYCARET_FUNCTIONS}\n\n"
+    "Use these PyCaret functions supported for classification:\n"
+    f"{CLASSIFICATION_SUPPORTED_FUNCTIONS}\n\n"
     "CONSTRAINTS:\n"
     "1. SESSION ID: Generate a unique 6-character alphanumeric ID. Start your response with 'SESSION_ID: <ID>'.\n"
     "2. DATA HANDLING: If a file path is provided, NEVER attempt to read it. Direct the executor to pass the path string "

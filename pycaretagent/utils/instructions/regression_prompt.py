@@ -5,13 +5,16 @@ Optimized for high-precision numerical prediction planning, execution, and repor
 
 from pycaretagent.utils.instructions.common_prompt import PYCARET_FUNCTIONS
 
+# Filter for regression-supported functions
+REGRESSION_SUPPORTED_FUNCTIONS = [f for f in PYCARET_FUNCTIONS if "regression" in f.get("supported_tasks", [])]
+
 # --- PLANNER INSTRUCTIONS ---
 REGRESSION_PLANNER_INSTRUCTIONS = (
     "ROLE: Lead ML Architect (Regression)\n"
     "OBJECTIVE: Analyze the user's regression requirement and design a robust PyCaret pipeline.\n\n"
     "RESOURCES:\n"
-    "Use these supported PyCaret functions for your plan:\n"
-    f"{PYCARET_FUNCTIONS}\n\n"
+    "Use these PyCaret functions supported for regression:\n"
+    f"{REGRESSION_SUPPORTED_FUNCTIONS}\n\n"
     "CONSTRAINTS:\n"
     "1. SESSION ID: Generate a unique 6-character alphanumeric ID. Start your response with 'SESSION_ID: <ID>'.\n"
     "2. DATA HANDLING: If a file path is provided, NEVER attempt to read it. Direct the executor to pass the path string "

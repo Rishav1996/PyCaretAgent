@@ -1,16 +1,75 @@
 """
 Anomaly Detection Sub-Agent for PyCaretAgent.
-Specializes in unsupervised outlier detection using PyCaret's Anomaly Detection module.
+Specializes in unsupervised outlier detection using PyCaret's Anomaly Detection module,
+implemented as a SequentialAgent for structured processing.
 """
 
+import re
 from google.adk.agents.llm_agent import LlmAgent
+from google.adk.agents.sequential_agent import SequentialAgent
+from google.adk.agents.callback_context import CallbackContext
+from google.adk.code_executors import BuiltInCodeExecutor
 from pycaretagent.utils.config import DEFAULT_MODEL
-from pycaretagent.utils.instructions.anomaly_prompt import ANOMALY_INSTRUCTIONS
+from pycaretagent.utils.tools.html_reporter_tool import save_html_report_tool
+from pycaretagent.utils.instructions.anomaly_prompt import (
+    ANOMALY_PLANNER_INSTRUCTIONS,
+    ANOMALY_EXECUTOR_INSTRUCTIONS,
+    ANOMALY_REPORTER_INSTRUCTIONS
+)
 
-# Initialize the Anomaly Detection Agent with its specialized instructions
-anomaly_agent = LlmAgent(
+def extract_session_id_callback(callback_context: CallbackContext):
+    """
+    Callback to extract the Session ID from the planner's response 
+    and store it in the session state for downstream agents.
+    """
+    plan_text = callback_context.state.get("anomaly_plan", "")
+    
+    match = re.search(r"SESSION_ID:\s*([A-Za-z0-9]+)", plan_text)
+    if match:
+        session_id = match.group(1)
+        callback_context.state["session_id"] = session_id
+    
+    return None
+
+# Sub-Agent: Planner (Analyzes the task and plans the anomaly detection workflow)
+anomaly_planner = LlmAgent(
+    name="anomaly_planner",
+    description="Analyzes the anomaly detection task and plans the ML workflow.",
+    instruction=ANOMALY_PLANNER_INSTRUCTIONS,
+    model=DEFAULT_MODEL,
+    output_key="anomaly_plan",
+    after_agent_callback=extract_session_id_callback
+)
+
+# Sub-Agent: Executor (Performs training, comparison, and evaluation)
+anomaly_executor = LlmAgent(
+    name="anomaly_executor",
+    description="Executes the planned anomaly detection workflow using PyCaret functions.",
+    instruction=ANOMALY_EXECUTOR_INSTRUCTIONS,
+    model=DEFAULT_MODEL,
+    code_executor=BuiltInCodeExecutor(),
+    output_key="anomaly_results"
+)
+
+# Sub-Agent: Reporter (Generates markdown summary and styled HTML report)
+anomaly_reporter = LlmAgent(
+    name="anomaly_reporter",
+    description="Summarizes results into markdown and uses save_html_report_tool for an HTML report.",
+    instruction=ANOMALY_REPORTER_INSTRUCTIONS,
+    model=DEFAULT_MODEL,
+    tools=[save_html_report_tool],
+    output_key="anomaly_report"
+)
+
+# Initialize the Anomaly Agent as a SequentialAgent
+# This agent orchestrates the sub-agents in a strict sequence: 
+# Planner -> Executor -> Reporter (w/ HTML)
+anomaly_agent = SequentialAgent(
     name="anomaly_agent",
-    description="Expert in anomaly detection tasks, outlier identification, and model selection.",
-    instruction=ANOMALY_INSTRUCTIONS,
-    model=DEFAULT_MODEL
+    description="Structured anomaly detection workflow with professional reporting.",
+    sub_agents=[
+        anomaly_planner, 
+        anomaly_executor, 
+        anomaly_reporter
+    ]
 )
