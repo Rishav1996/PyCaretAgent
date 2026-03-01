@@ -13,7 +13,6 @@
 
 ## 3. Data & State
 - **DuckDB:** Primary engine for local analytical processing.
-- **MLflow:** Used for all experiment logging and model tracking.
 - **Configuration:** Managed via `.env` and `pycaretagent/utils/config.py`.
 
 ## 4. Quality Assurance

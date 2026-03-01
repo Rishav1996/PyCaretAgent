@@ -9,3 +9,7 @@ wheels/
 # Virtual environments
 .venv
 .env
+
+# PyCaretAgent Artifacts
+results/
+.adk/

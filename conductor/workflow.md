@@ -19,7 +19,6 @@ The `PyCaretAgent` workflow is designed to handle an end-to-end machine learning
 
 ### 4. Machine Learning Pipeline
 -   Sub-agents execute the PyCaret functional API (e.g., `setup`, `compare_models`, `tune_model`).
--   Experiment results are logged and tracked via MLflow.
 
 ### 5. Cloud Platform Deployment
 -   The Root Agent coordinates the final model deployment.

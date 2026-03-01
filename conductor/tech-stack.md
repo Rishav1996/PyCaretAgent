@@ -16,10 +16,6 @@
 - **DuckDB**: For fast, in-process analytical data management and processing.
 - **Pandas/Numpy**: (Indirectly through PyCaret) for data manipulation.
 
-## Experiment Tracking & Governance
-
-- **MLflow**: To track experiments, log models, and manage the ML lifecycle.
-
 ## Development & Environment
 
 - **uv / pip**: For dependency and package management.
