@@ -1,36 +1,47 @@
-# Project: PyCaretAgent
+# PyCaretAgent
 
 ## Project Overview
 
-This project, `pycaretagent`, appears to be a Python-based framework for agentic machine learning tasks, primarily focusing on classification and regression.   Currently, some core implementation files (like `README.md`, `agents.py`, `tools.py` in both `classification` and `regression` directories) appear to be placeholders, suggesting it might be a template or an early-stage project.
+`PyCaretAgent` is an agentic extension of the **PyCaret** library. It leverages the **Google Generative AI SDK (google-adk)** to create a hierarchical agent system:
+- **Root Agent:** The primary entry point that interacts with the user, plans tasks, and delegates work.
+- **Sub-Agents:** Specialized agents for specific machine learning tasks, including:
+    - **Classification Agent**: Handles classification workflows.
+    - **Regression Agent**: Handles regression workflows.
+    - **(Future)** Clustering, Time Series, etc.
 
-## Building and Running
+The project facilitates a complete machine learning lifecycle, starting from automated data analysis and preprocessing, moving through model training and optimization, and concluding with model deployment on cloud platforms.
 
-*   **Prerequisites:** Python 3.12 or higher.
+## Tech Stack
 
-*   **Installation:**
-    The project's dependencies are listed in `requirements.txt` and `pyproject.toml`. You can install them using `pip` or `uv`.
+- **Python:** 3.12+
+- **AutoML Core:** [PyCaret](https://pycaret.org/)
+- **Agent Orchestration:** [Google Generative AI SDK](https://github.com/google-gemini/google-adk) (`google-adk`)
+- **Experiment Tracking:** [MLflow](https://mlflow.org/)
+- **Data Engine:** [DuckDB](https://duckdb.org/)
+- **Cloud Deployment:** (Targeting AWS, Azure, GCP via PyCaret's deployment features)
+- **Dependency Management:** `uv` / `pip`
 
-    ```bash
-    # Using pip
-    pip install -r requirements.txt
-    # or using uv (if installed)
-    uv pip install -r requirements.txt
-    ```
-    Alternatively, using `pyproject.toml` with a modern Python dependency manager:
-    ```bash
-    # Using uv (recommended)
-    uv pip install .
-    # Using pip (requires setuptools in some cases)
-    pip install .
-    ```
+## Project Structure
 
-*   **Running the project:**
-    (TODO: Determine the main entry point or execution flow. The current agent and tool files are empty. This section will need to be updated once the core logic is implemented.)
+- `pycaretagent/`: Core package.
+    - `agent.py`: Orchestrating Root Agent.
+    - `utils/`: Core utilities and helper functions.
+        - `agents/`: Specialized Sub-Agent definitions (e.g., classification, regression).
+        - `instructions/`: Centralized prompt templates for all agents.
+        - `config.py`: Global configuration and model settings.
+- `conductor/`: Project management and detailed specifications.
+- `GEMINI.md`: Project-specific instructions and context for Gemini CLI (this file).
 
-## Development Conventions
+## Development Guidelines
 
-*   **Python Version:** Python 3.12 is the target development environment, as indicated by `.python-version` and `pyproject.toml`.
-*   **Dependency Management:** Dependencies are managed via `requirements.txt` for direct dependencies and `pyproject.toml` for project metadata and more comprehensive dependency management.
+- **Agent Hierarchy:** Always maintain the distinction between Root and Sub-Agents. Tools should be granular and specific to the agent's domain.
+- **Import Convention:** Always use `google.adk` for imports from the Google Generative AI SDK, never `google_adk`.
+- **Instruction Management:** Prompts must be centralized in `pycaretagent/utils/instructions/` for consistency and easier tuning.
+- **PyCaret Integration:** Deeply integrate with PyCaret's functional API. The agents should act as intelligent wrappers around PyCaret functions.
+- **End-to-End Lifecycle:** Every workflow should consider the path from raw data to a deployed cloud endpoint.
+- **State Management:** Use DuckDB or shared state objects to pass data and context between agents.
+- **Environment Variables:** Use `.env` and `pycaretagent/utils/config.py` for all configurable parameters like model names and API keys.
 
-*   **Machine Learning Framework:** `pycaret` is integrated for simplified machine learning model development and deployment.
+## Conductor Context
+
+Refer to `conductor/index.md` for detailed product requirements, track progress, and the evolving implementation plan as guided by the user.
