@@ -91,7 +91,7 @@ Example prompt: *"Perform a classification task on 'data/heart.csv' where the ta
 ## 📊 Experiment Tracking
 All experiments are automatically tracked in MLflow.
 -   **Experiment Name:** `classification_{session_id}` or `regression_{session_id}`
--   **Artifacts:** Input data copy (`results/input/`), saved models, and plots are stored under `results/`.
+-   **Artifacts:** Input data copy (`input/`), saved models, and plots are stored under `results/`.
 
 ## 📄 License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

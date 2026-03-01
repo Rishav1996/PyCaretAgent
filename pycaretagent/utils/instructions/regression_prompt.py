@@ -40,7 +40,7 @@ REGRESSION_EXECUTOR_INSTRUCTIONS = (
     "   - Call `setup()` with `log_experiment=True` and `experiment_name='regression_{session_id}'`.\n"
     "   - CRITICAL: Pass file paths as literal strings. DO NOT read files into memory.\n"
     "4. ARTIFACTS:\n"
-    "   - Log the input file: `mlflow.log_artifact(path, 'results/input/')`.\n"
+    "   - Log the input file: `mlflow.log_artifact(path, 'input/')`.\n"
     "   - Log all outputs (models, plots, CSVs) using `mlflow.log_artifact(local_path, 'results/')`.\n\n"
     "REPORTING:\n"
     "Summarize the best model found and its primary metrics (R2, RMSE, MAE, etc.)."
