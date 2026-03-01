@@ -33,18 +33,28 @@ Both **Classification** and **Regression** agents are implemented as `Sequential
 ```text
 PyCaretAgent/
 ├── pycaretagent/
-│   ├── agent.py               # Root Orchestrator Agent
+│   ├── agent.py               # Root Orchestrator (validates input & delegates)
+│   ├── __init__.py
 │   └── utils/
-│       ├── agents/            # Sub-Agent definitions (Classification, Regression, etc.)
-│       ├── instructions/      # Persona-based optimized prompt templates
-│       │   ├── common_prompt.py  # Shared PyCaret function metadata
+│       ├── config.py          # Global settings (Model names, MLflow URI)
+│       ├── agents/            # Sub-Agent definitions
+│       │   ├── classification_agent.py # Sequential: Planner -> Executor -> Reporter
+│       │   ├── regression_agent.py     # Sequential: Planner -> Executor -> Reporter
+│       │   ├── anomaly_agent.py
+│       │   ├── clustering_agent.py
+│       │   └── ts_agent.py
+│       ├── instructions/      # Optimized system prompts
+│       │   ├── common_prompt.py        # Shared PyCaret function metadata
 │       │   ├── classification_prompt.py
-│       │   └── regression_prompt.py
-│       ├── tools/             # Reusable agent tools (HTML Reporter, File Validator)
-│       └── config.py          # Global configuration & MLflow URI
-├── results/                   # Local storage for Session Artifacts & HTML Reports
+│       │   ├── regression_prompt.py
+│       │   └── route_prompt.py         # Root agent routing logic
+│       └── tools/             # Reusable agent tools
+│           ├── html_reporter_tool.py   # Saves styled HTML reports to results/
+│           └── file_validator_tool.py  # Ensures datasets exist before processing
+├── results/                   # local storage for Session Artifacts & HTML Reports
 ├── conductor/                 # Project management & workflow specifications
-├── pyproject.toml             # Project dependencies (google-adk, pycaret, mlflow, duckdb)
+├── pyproject.toml             # Project dependencies and metadata
+├── requirements.txt           # Flat dependency list
 └── README.md                  # Project documentation
 ```
 
