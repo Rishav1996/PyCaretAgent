@@ -10,22 +10,28 @@
 
 -   **Natural Language ML:** Trigger complex PyCaret workflows using simple English commands.
 -   **Sequential Pipeline Orchestration:** Sub-agents follow a rigorous `Planner -> Executor` workflow.
--   **Advanced Reasoning (Built-In Planner):** The Executor agents leverage the ADK `BuiltInPlanner` to perform deep reasoning and formulate step-by-step plans before taking action, ensuring higher reliability and better task decomposition.
--   **Intelligent Planning:** Lead ML Architect persona designs the pipeline based on dataset characteristics and filtered PyCaret functions.
+-   **Advanced Reasoning (Built-In Planner):** The sub-agents leverage the ADK `BuiltInPlanner` to perform deep reasoning and formulate step-by-step plans before taking action, ensuring higher reliability and better task decomposition.
+-   **Self-Correction & Robustness:** 
+    -   **Retry Logic:** `UnsafeLocalCodeExecutor` is configured with 10 retry attempts to automatically fix and re-run code on failure.
+    -   **Intelligent Re-runs:** A `check_failure_status_callback` ensures that the agent only proceeds when tasks are successfully completed, skipping redundant calls based on the `check_failure_status` variable.
+-   **Standardized Data Handling:** Mandatory requirement for the planning agent to use `pd.read_csv()` and pass the resulting DataFrame to PyCaret's `setup()`, ensuring high compatibility and performance.
+-   **Isolated Session Storage:** ALL generated files (CSVs, plots, models, errors) are saved in a session-specific directory at `temp/{session_id}/` to ensure artifact isolation and organization.
 -   **Local Code Execution:** Uses `UnsafeLocalCodeExecutor` for robust, high-performance code execution directly in the local environment.
--   **Experiment Tracking:** Built-in **MLflow** integration for real-time monitoring of parameters, metrics, and models at `http://127.0.0.1:5000`.
+-   **Exhaustive Experiment Tracking:** Built-in **MLflow** integration for real-time monitoring.
+    -   **Metrics:** Mandatory logging of every evaluation metric (Accuracy, AUC, R2, etc.) via `mlflow.log_metric()`.
+    -   **Parameters:** Mandatory logging of any custom parameters passed to PyCaret functions via `mlflow.log_param()`.
+-   **Comprehensive Error Logging:** Automated capture of full tracebacks using the `traceback` module, saved to `temp/{session_id}/error.txt` and logged as MLflow artifacts.
 -   **Session ID Persistence:** Automated unique Session ID generation for auditability and artifact organization.
--   **Safe Data Handling:** "No Memory" rule ensures large datasets are never read into memory; file paths are passed directly to PyCaret's `setup()`.
 
 ## 🏗️ Architecture
 
 ### 1. Root Agent
-The primary orchestrator that validates user input (CSV presence, target variable) and delegates tasks to the appropriate specialized sub-agent.
+The primary orchestrator (an `LlmAgent`) that validates user input (CSV presence via `csv_validator_tool`, target variable) and delegates tasks to the appropriate specialized sub-agent.
 
 ### 2. Specialized Sub-Agents (Pipelines)
 All sub-agents (Classification, Regression, Clustering, Anomaly, Time Series) are implemented as `SequentialAgent` pipelines:
 -   **Planner:** Designs the PyCaret pipeline, identifies the target, and generates a unique `SESSION_ID`.
--   **Executor:** (Enhanced with BuiltInPlanner) Generates and executes Python code, logs metrics/params to MLflow, and saves artifacts (models, plots).
+-   **Executor:** (Enhanced with BuiltInPlanner) Formulates a plan, generates and executes Python code within a `try-except` block, logs metrics/params to MLflow, and saves artifacts to the session-specific `temp/` folder.
 
 ## 📁 Project Structure
 
@@ -52,7 +58,8 @@ PyCaretAgent/
 │       │   └── route_prompt.py
 │       └── tools/             # Reusable Agent Tools
 │           └── file_validator_tool.py
-├── results/                   # Session-specific artifacts (local)
+├── temp/                      # Session-specific isolated artifact storage (local)
+├── results/                   # Final session results and global artifacts
 ├── conductor/                 # Project management & track specifications
 ├── pyproject.toml             # Dependency management (uv/pip)
 ├── requirements.txt           # Environment requirements
@@ -92,9 +99,10 @@ Example prompt: *"Perform a classification task on 'data/heart.csv' where the ta
 ## 📊 Experiment Tracking
 All experiments are automatically tracked in MLflow.
 -   **Experiment Name:** `[task]_{session_id}`
--   **Artifacts:** 
-    -   Input data copy logged to `input/` folder in MLflow.
-    -   All outputs (models, plots, CSVs) logged to `results/` folder in MLflow.
+-   **Artifact Folders:** 
+    -   `input`: Copy of the original dataset.
+    -   `results`: Models, plots, and CSV outputs.
+    -   `errors`: `error.txt` containing full tracebacks in case of execution failure.
 
 ## 📄 License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
