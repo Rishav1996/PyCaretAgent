@@ -1,0 +1,13 @@
+# Conductor Ignore
+.adk/
+.git/
+.venv/
+__pycache__/
+temp/
+results/
+node_modules/
+*.log
+*.tmp
+.env
+pyproject.toml
+requirements.txt
