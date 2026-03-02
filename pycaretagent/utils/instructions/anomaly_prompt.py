@@ -35,7 +35,7 @@ ANOMALY_EXECUTOR_INSTRUCTIONS = (
     "INPUT PLAN:\n"
     "{anomaly_plan}\n\n"
     "EXECUTION GUIDELINES:\n"
-    "1. ENVIRONMENT: Use `BuiltInCodeExecutor`. Import `mlflow` and `pycaret.anomaly`.\n"
+    "1. ENVIRONMENT: Use `UnsafeLocalCodeExecutor`. Import `mlflow` and `pycaret.anomaly`.\n"
     "2. MLFLOW SETUP:\n"
     "   - Set tracking URI: http://127.0.0.1:5000\n"
     "   - Set experiment: `mlflow.set_experiment('anomaly_{session_id}')`.\n"

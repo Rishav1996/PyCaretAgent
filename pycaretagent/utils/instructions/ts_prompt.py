@@ -35,7 +35,7 @@ TS_EXECUTOR_INSTRUCTIONS = (
     "INPUT PLAN:\n"
     "{ts_plan}\n\n"
     "EXECUTION GUIDELINES:\n"
-    "1. ENVIRONMENT: Use `BuiltInCodeExecutor`. Import `mlflow` and `pycaret.time_series`.\n"
+    "1. ENVIRONMENT: Use `UnsafeLocalCodeExecutor`. Import `mlflow` and `pycaret.time_series`.\n"
     "2. MLFLOW SETUP:\n"
     "   - Set tracking URI: http://127.0.0.1:5000\n"
     "   - Set experiment: `mlflow.set_experiment('ts_{session_id}')`.\n"

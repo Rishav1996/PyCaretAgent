@@ -11,7 +11,7 @@
 -   **Natural Language ML:** Trigger complex PyCaret workflows using simple English commands.
 -   **Sequential Pipeline Orchestration:** Sub-agents follow a rigorous `Planner -> Executor -> Reporter` workflow.
 -   **Intelligent Planning:** Lead ML Architect persona designs the pipeline based on dataset characteristics and filtered PyCaret functions.
--   **Automated Execution:** ML Automation persona executes Python code via `BuiltInCodeExecutor`, handling imports and function calls.
+-   **Automated Execution:** ML Automation persona executes Python code, handling imports and function calls.
 -   **Experiment Tracking:** Built-in **MLflow** integration for real-time monitoring of parameters, metrics, and models at `http://127.0.0.1:5000`.
 -   **Professional Reporting:** Automated generation of high-quality Markdown summaries and styled HTML reports for every session.
 -   **Session ID Persistence:** Automated unique Session ID generation (`SESSION_ID`) for auditability and artifact organization.

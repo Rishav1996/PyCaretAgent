@@ -34,7 +34,7 @@ CLASSIFICATION_EXECUTOR_INSTRUCTIONS = (
     "INPUT PLAN:\n"
     "{classification_plan}\n\n"
     "EXECUTION GUIDELINES:\n"
-    "1. ENVIRONMENT: Use `BuiltInCodeExecutor`. Import `mlflow` and `pycaret.classification`.\n"
+    "1. ENVIRONMENT: Use `UnsafeLocalCodeExecutor`. Import `mlflow` and `pycaret.classification`.\n"
     "2. MLFLOW SETUP:\n"
     "   - Set tracking URI: http://127.0.0.1:5000\n"
     "   - Set experiment: `mlflow.set_experiment('classification_{session_id}')`.\n"

@@ -8,7 +8,7 @@ import re
 from google.adk.agents.llm_agent import LlmAgent
 from google.adk.agents.sequential_agent import SequentialAgent
 from google.adk.agents.callback_context import CallbackContext
-from google.adk.code_executors import BuiltInCodeExecutor
+from google.adk.code_executors import UnsafeLocalCodeExecutor
 from pycaretagent.utils.config import DEFAULT_MODEL
 from pycaretagent.utils.tools.html_reporter_tool import save_html_report_tool
 from pycaretagent.utils.instructions.regression_prompt import (
@@ -47,7 +47,7 @@ regression_executor = LlmAgent(
     description="Executes the planned regression workflow using PyCaret functions.",
     instruction=REGRESSION_EXECUTOR_INSTRUCTIONS,
     model=DEFAULT_MODEL,
-    code_executor=BuiltInCodeExecutor(),
+    code_executor=UnsafeLocalCodeExecutor(),
     output_key="regression_results"
 )
 
