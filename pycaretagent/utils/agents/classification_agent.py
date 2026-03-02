@@ -31,6 +31,22 @@ def extract_session_id_callback(callback_context: CallbackContext):
     
     return None
 
+# --- Thinking Planner ---
+# A common thinking planner for sub-agents to structure their process.
+COMMON_THINKING_INSTRUCTIONS = (
+    "ROLE: Internal Monologue\n"
+    "OBJECTIVE: Think step-by-step to formulate a plan to accomplish your goal. "
+    "Analyze your main instructions and the data provided in the session state. "
+    "Break down the task into smaller, manageable steps. "
+    "Finally, provide a clear plan of action before execution."
+)
+
+thinking_planner_agent = LlmAgent(
+    name="thinking_planner",
+    instruction=COMMON_THINKING_INSTRUCTIONS,
+    model=DEFAULT_MODEL
+)
+
 # Sub-Agent: Planner (Analyzes the task and plans the workflow)
 classification_planner = LlmAgent(
     name="classification_planner",
@@ -48,7 +64,8 @@ classification_executor = LlmAgent(
     instruction=CLASSIFICATION_EXECUTOR_INSTRUCTIONS,
     model=DEFAULT_MODEL,
     code_executor=UnsafeLocalCodeExecutor(),
-    output_key="classification_results"
+    output_key="classification_results",
+    thinking_planner=thinking_planner_agent
 )
 
 # Sub-Agent: Reporter (Generates markdown summary and styled HTML report)
@@ -58,7 +75,8 @@ classification_reporter = LlmAgent(
     instruction=CLASSIFICATION_REPORTER_INSTRUCTIONS,
     model=DEFAULT_MODEL,
     tools=[save_html_report_tool],
-    output_key="classification_report"
+    output_key="classification_report",
+    thinking_planner=thinking_planner_agent
 )
 
 # Initialize the Classification Agent as a SequentialAgent

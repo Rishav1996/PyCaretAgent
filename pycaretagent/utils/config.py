@@ -17,7 +17,7 @@ ROOT_DIR = Path(__file__).parent.parent.parent
 RESULTS_DIR = ROOT_DIR / "results"
 
 # Centralized Model Names using the latest Gemini versions
-DEFAULT_MODEL = os.getenv("DEFAULT_MODEL", "gemini-3-flash-preview")
+DEFAULT_MODEL = os.getenv("DEFAULT_MODEL", "gemini-2.5-flash")
 
 # MLflow Tracking Configuration
 MLFLOW_TRACKING_URI = "http://127.0.0.1:5000"

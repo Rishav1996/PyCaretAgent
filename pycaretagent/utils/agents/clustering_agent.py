@@ -31,6 +31,21 @@ def extract_session_id_callback(callback_context: CallbackContext):
     
     return None
 
+# --- Thinking Planner ---
+COMMON_THINKING_INSTRUCTIONS = (
+    "ROLE: Internal Monologue\n"
+    "OBJECTIVE: Think step-by-step to formulate a plan to accomplish your goal. "
+    "Analyze your main instructions and the data provided in the session state. "
+    "Break down the task into smaller, manageable steps. "
+    "Finally, provide a clear plan of action before execution."
+)
+
+thinking_planner_agent = LlmAgent(
+    name="thinking_planner",
+    instruction=COMMON_THINKING_INSTRUCTIONS,
+    model=DEFAULT_MODEL
+)
+
 # Sub-Agent: Planner (Analyzes the task and plans the clustering workflow)
 clustering_planner = LlmAgent(
     name="clustering_planner",
@@ -48,7 +63,8 @@ clustering_executor = LlmAgent(
     instruction=CLUSTERING_EXECUTOR_INSTRUCTIONS,
     model=DEFAULT_MODEL,
     code_executor=UnsafeLocalCodeExecutor(),
-    output_key="clustering_results"
+    output_key="clustering_results",
+    thinking_planner=thinking_planner_agent
 )
 
 # Sub-Agent: Reporter (Generates markdown summary and styled HTML report)
@@ -58,7 +74,8 @@ clustering_reporter = LlmAgent(
     instruction=CLUSTERING_REPORTER_INSTRUCTIONS,
     model=DEFAULT_MODEL,
     tools=[save_html_report_tool],
-    output_key="clustering_report"
+    output_key="clustering_report",
+    thinking_planner=thinking_planner_agent
 )
 
 # Initialize the Clustering Agent as a SequentialAgent

@@ -12,3 +12,6 @@ wheels/
 
 # PyCaretAgent Artifacts
 .adk/
+.vscode/
+logs.log
+mlflow.db

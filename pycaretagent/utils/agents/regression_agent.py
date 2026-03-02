@@ -31,6 +31,21 @@ def extract_session_id_callback(callback_context: CallbackContext):
     
     return None
 
+# --- Thinking Planner ---
+COMMON_THINKING_INSTRUCTIONS = (
+    "ROLE: Internal Monologue\n"
+    "OBJECTIVE: Think step-by-step to formulate a plan to accomplish your goal. "
+    "Analyze your main instructions and the data provided in the session state. "
+    "Break down the task into smaller, manageable steps. "
+    "Finally, provide a clear plan of action before execution."
+)
+
+thinking_planner_agent = LlmAgent(
+    name="thinking_planner",
+    instruction=COMMON_THINKING_INSTRUCTIONS,
+    model=DEFAULT_MODEL
+)
+
 # Sub-Agent: Planner (Analyzes the task and plans the regression workflow)
 regression_planner = LlmAgent(
     name="regression_planner",
@@ -48,7 +63,8 @@ regression_executor = LlmAgent(
     instruction=REGRESSION_EXECUTOR_INSTRUCTIONS,
     model=DEFAULT_MODEL,
     code_executor=UnsafeLocalCodeExecutor(),
-    output_key="regression_results"
+    output_key="regression_results",
+    thinking_planner=thinking_planner_agent
 )
 
 # Sub-Agent: Reporter (Generates markdown summary and styled HTML report)
@@ -58,7 +74,8 @@ regression_reporter = LlmAgent(
     instruction=REGRESSION_REPORTER_INSTRUCTIONS,
     model=DEFAULT_MODEL,
     tools=[save_html_report_tool],
-    output_key="regression_report"
+    output_key="regression_report",
+    thinking_planner=thinking_planner_agent
 )
 
 # Initialize the Regression Agent as a SequentialAgent
