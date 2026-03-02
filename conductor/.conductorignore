@@ -1,7 +1,0 @@
-# Files and directories listed here will be ignored by the Conductor.
-.conductorignore
-pyproject.toml
-.env
-.gitignore
-uv.lock
-requirements.txt
