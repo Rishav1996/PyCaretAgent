@@ -4,6 +4,7 @@ It ensures that the provided paths point to valid CSV files before further proce
 """
 
 import os
+from google.adk.tools.function_tool import FunctionTool
 
 
 def check_csv_presence(file_path: str) -> dict:
@@ -43,3 +44,6 @@ def check_csv_presence(file_path: str) -> dict:
             "is_csv": False,
             "message": f"File '{file_path}' is not a CSV file."
         }
+
+# Export the function as an ADK tool
+csv_validator_tool = FunctionTool(func=check_csv_presence)

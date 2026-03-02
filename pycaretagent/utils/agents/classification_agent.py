@@ -9,12 +9,12 @@ from google.adk.agents.llm_agent import LlmAgent
 from google.adk.agents.sequential_agent import SequentialAgent
 from google.adk.agents.callback_context import CallbackContext
 from google.adk.code_executors import UnsafeLocalCodeExecutor
+from google.adk.planners import BuiltInPlanner
+from google.genai import types
 from pycaretagent.utils.config import DEFAULT_MODEL
-from pycaretagent.utils.tools.html_reporter_tool import save_html_report_tool
 from pycaretagent.utils.instructions.classification_prompt import (
     CLASSIFICATION_PLANNER_INSTRUCTIONS,
-    CLASSIFICATION_EXECUTOR_INSTRUCTIONS,
-    CLASSIFICATION_REPORTER_INSTRUCTIONS
+    CLASSIFICATION_EXECUTOR_INSTRUCTIONS
 )
 
 def extract_session_id_callback(callback_context: CallbackContext):
@@ -31,20 +31,32 @@ def extract_session_id_callback(callback_context: CallbackContext):
     
     return None
 
-# --- Thinking Planner ---
-# A common thinking planner for sub-agents to structure their process.
-COMMON_THINKING_INSTRUCTIONS = (
-    "ROLE: Internal Monologue\n"
-    "OBJECTIVE: Think step-by-step to formulate a plan to accomplish your goal. "
-    "Analyze your main instructions and the data provided in the session state. "
-    "Break down the task into smaller, manageable steps. "
-    "Finally, provide a clear plan of action before execution."
-)
+def check_execution_success_callback(callback_context: CallbackContext):
+    """
+    Callback to check if the executor ran successfully.
+    Signals that the task is done.
+    """
+    callback_context.state["task_completed"] = True
+    return None
 
-thinking_planner_agent = LlmAgent(
-    name="thinking_planner",
-    instruction=COMMON_THINKING_INSTRUCTIONS,
-    model=DEFAULT_MODEL
+def check_failure_status_callback(callback_context: CallbackContext, llm_request):
+    """
+    Callback to check if the previous run failed.
+    """
+    # Check the state for failure status. 
+    # If False, it means success, so we skip.
+    status = callback_context.state.get("check_failure_status")
+    if status is False:
+        return "Task already completed successfully. Skipping redundant execution."
+    return None
+
+# --- Built-In Planner ---
+# Uses the model's native thinking capabilities.
+builtin_planner = BuiltInPlanner(
+    thinking_config=types.ThinkingConfig(
+        include_thoughts=True,
+        thinking_budget=1024
+    )
 )
 
 # Sub-Agent: Planner (Analyzes the task and plans the workflow)
@@ -63,31 +75,20 @@ classification_executor = LlmAgent(
     description="Executes the planned classification workflow using PyCaret functions.",
     instruction=CLASSIFICATION_EXECUTOR_INSTRUCTIONS,
     model=DEFAULT_MODEL,
-    code_executor=UnsafeLocalCodeExecutor(),
-    output_key="classification_results",
-    thinking_planner=thinking_planner_agent
-)
-
-# Sub-Agent: Reporter (Generates markdown summary and styled HTML report)
-classification_reporter = LlmAgent(
-    name="classification_reporter",
-    description="Summarizes results into markdown and uses save_html_report_tool for an HTML report.",
-    instruction=CLASSIFICATION_REPORTER_INSTRUCTIONS,
-    model=DEFAULT_MODEL,
-    tools=[save_html_report_tool],
-    output_key="classification_report",
-    thinking_planner=thinking_planner_agent
+    code_executor=UnsafeLocalCodeExecutor(error_retry_attempts=10),
+    planner=builtin_planner,
+    before_model_callback=check_failure_status_callback,
+    after_agent_callback=check_execution_success_callback
 )
 
 # Initialize the Classification Agent as a SequentialAgent
 # This agent orchestrates the sub-agents in a strict sequence: 
-# Planner -> Executor -> Reporter (w/ HTML)
+# Planner -> Executor
 classification_agent = SequentialAgent(
     name="classification_agent",
-    description="Structured classification workflow with professional reporting.",
+    description="Structured classification workflow.",
     sub_agents=[
         classification_planner, 
-        classification_executor, 
-        classification_reporter
+        classification_executor
     ]
 )

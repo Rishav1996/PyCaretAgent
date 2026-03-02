@@ -4,17 +4,17 @@
 
 ## 🚀 Overview
 
-`PyCaretAgent` implements a sophisticated hierarchical and sequential agent system. A **Root Agent** orchestrates specialized **Sub-Agents** (Classification, Regression, etc.), which are themselves structured as multi-step pipelines to ensure high-precision planning, execution, and professional reporting.
+`PyCaretAgent` implements a sophisticated hierarchical and sequential agent system. A **Root Agent** orchestrates specialized **Sub-Agents** (Classification, Regression, etc.), which are themselves structured as multi-step pipelines to ensure high-precision planning and execution.
 
 ## ✨ Key Features
 
 -   **Natural Language ML:** Trigger complex PyCaret workflows using simple English commands.
--   **Sequential Pipeline Orchestration:** Sub-agents follow a rigorous `Planner -> Executor -> Reporter` workflow.
+-   **Sequential Pipeline Orchestration:** Sub-agents follow a rigorous `Planner -> Executor` workflow.
+-   **Advanced Reasoning (Built-In Planner):** The Executor agents leverage the ADK `BuiltInPlanner` to perform deep reasoning and formulate step-by-step plans before taking action, ensuring higher reliability and better task decomposition.
 -   **Intelligent Planning:** Lead ML Architect persona designs the pipeline based on dataset characteristics and filtered PyCaret functions.
--   **Automated Execution:** ML Automation persona executes Python code, handling imports and function calls.
+-   **Local Code Execution:** Uses `UnsafeLocalCodeExecutor` for robust, high-performance code execution directly in the local environment.
 -   **Experiment Tracking:** Built-in **MLflow** integration for real-time monitoring of parameters, metrics, and models at `http://127.0.0.1:5000`.
--   **Professional Reporting:** Automated generation of high-quality Markdown summaries and styled HTML reports for every session.
--   **Session ID Persistence:** Automated unique Session ID generation (`SESSION_ID`) for auditability and artifact organization.
+-   **Session ID Persistence:** Automated unique Session ID generation for auditability and artifact organization.
 -   **Safe Data Handling:** "No Memory" rule ensures large datasets are never read into memory; file paths are passed directly to PyCaret's `setup()`.
 
 ## 🏗️ Architecture
@@ -25,8 +25,7 @@ The primary orchestrator that validates user input (CSV presence, target variabl
 ### 2. Specialized Sub-Agents (Pipelines)
 All sub-agents (Classification, Regression, Clustering, Anomaly, Time Series) are implemented as `SequentialAgent` pipelines:
 -   **Planner:** Designs the PyCaret pipeline, identifies the target, and generates a unique `SESSION_ID`.
--   **Executor:** Executes the code, logs metrics/params to MLflow, and saves artifacts (models, plots).
--   **Reporter:** Synthesizes results into a professional Markdown summary and a styled HTML report.
+-   **Executor:** (Enhanced with BuiltInPlanner) Generates and executes Python code, logs metrics/params to MLflow, and saves artifacts (models, plots).
 
 ## 📁 Project Structure
 
@@ -37,24 +36,23 @@ PyCaretAgent/
 │   ├── __init__.py
 │   └── utils/
 │       ├── config.py          # Global configuration (Gemini models, MLflow URI)
-│       ├── agents/            # Sequential Sub-Agent Definitions
-│       │   ├── classification_agent.py # Planner -> Executor -> Reporter
-│       │   ├── regression_agent.py     # Planner -> Executor -> Reporter
-│       │   ├── clustering_agent.py     # Planner -> Executor -> Reporter
-│       │   ├── anomaly_agent.py        # Planner -> Executor -> Reporter
-│       │   └── ts_agent.py             # Planner -> Executor -> Reporter
+│       ├── agents/            # Sequential Sub-Agent Definitions (with ADK Planners)
+│       │   ├── classification_agent.py
+│       │   ├── regression_agent.py
+│       │   ├── clustering_agent.py
+│       │   ├── anomaly_agent.py
+│       │   └── ts_agent.py
 │       ├── instructions/      # Persona-based System Prompts
-│       │   ├── common_prompt.py        # Shared PyCaret function metadata (filtered by task)
+│       │   ├── common_prompt.py
 │       │   ├── classification_prompt.py
 │       │   ├── regression_prompt.py
 │       │   ├── clustering_prompt.py
 │       │   ├── anomaly_prompt.py
 │       │   ├── ts_prompt.py
-│       │   └── route_prompt.py         # Root agent routing logic
+│       │   └── route_prompt.py
 │       └── tools/             # Reusable Agent Tools
-│           ├── html_reporter_tool.py   # Styled HTML report generator
-│           └── file_validator_tool.py  # Path validation logic
-├── results/                   # Session-specific artifacts & HTML reports (local)
+│           └── file_validator_tool.py
+├── results/                   # Session-specific artifacts (local)
 ├── conductor/                 # Project management & track specifications
 ├── pyproject.toml             # Dependency management (uv/pip)
 ├── requirements.txt           # Environment requirements

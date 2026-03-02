@@ -6,8 +6,7 @@
 - **Root Agent:** The primary entry point that interacts with the user, validates requirements, and delegates work.
 - **Sequential Sub-Agents:** Specialized sub-agents (Classification, Regression, etc.) are structured as pipelines:
     - **Planner Agent:** Designs the ML workflow and generates a Session ID.
-    - **Executor Agent:** Runs Python code via `BuiltInCodeExecutor` and logs to MLflow.
-    - **Reporter Agent:** Generates Markdown summaries and saves styled HTML reports.
+    - **Executor Agent:** Runs Python code via `UnsafeLocalCodeExecutor` and logs to MLflow.
 
 The project facilitates a complete machine learning lifecycle, starting from automated data analysis and preprocessing, moving through model training and optimization, and concluding with model deployment on cloud platforms.
 
@@ -29,15 +28,15 @@ The project facilitates a complete machine learning lifecycle, starting from aut
         - `agents/`: Specialized Sub-Agent definitions (Classification, Regression, etc.).
         - `instructions/`: Centralized prompt templates.
             - `common_prompt.py`: Shared PyCaret function data.
-        - `tools/`: Reusable agent tools (e.g., `html_reporter_tool.py`).
+        - `tools/`: Reusable agent tools (e.g., `file_validator_tool.py`).
         - `config.py`: Global configuration and MLflow settings.
-- `results/`: Local storage for session artifacts, input data copies, and HTML reports.
+- `results/`: Local storage for session artifacts and input data copies.
 - `conductor/`: Project management and detailed specifications.
 - `GEMINI.md`: Project-specific instructions and context for Gemini CLI (this file).
 
 ## Development Guidelines
 
-- **Agent Hierarchy & Sequence:** Maintain the distinction between Root and Sub-Agents. Ensure sub-agents follow the Planner -> Executor -> Reporter sequence for consistency.
+- **Agent Hierarchy & Sequence:** Maintain the distinction between Root and Sub-Agents. Ensure sub-agents follow the Planner -> Executor sequence for consistency.
 - **Import Convention:** Always use `google.adk` for imports from the Google Generative AI SDK, never `google_adk`.
 - **Instruction Management:** Prompts must be centralized in `pycaretagent/utils/instructions/` and utilize state placeholders like `{session_id}`.
 - **Data Handling:** Never read entire datasets into memory. Always pass file paths as literal strings to PyCaret's `setup()` function.

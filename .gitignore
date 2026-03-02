@@ -15,3 +15,5 @@ wheels/
 .vscode/
 logs.log
 mlflow.db
+mlflow/
+pycaretagent/.adk/
