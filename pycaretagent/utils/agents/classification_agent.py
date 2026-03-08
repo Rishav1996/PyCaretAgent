@@ -7,11 +7,10 @@ now implemented as a SequentialAgent for more structured processing.
 from google.adk.agents.llm_agent import LlmAgent
 from google.adk.agents.sequential_agent import SequentialAgent
 from google.adk.code_executors import UnsafeLocalCodeExecutor
-from pycaretagent.utils.config import DEFAULT_MODEL, BUILTIN_PLANNER
+from pycaretagent.utils.config import DEFAULT_MODEL, BUILTIN_PLANNER, GENERATE_CONTENT_CONFIG
 from pycaretagent.utils.callbacks import (
     extract_session_id_callback, 
-    check_execution_success_callback, 
-    check_failure_status_callback
+    check_execution_success_callback
 )
 from pycaretagent.utils.tools.google_search_tool import google_search_tool
 from pycaretagent.utils.instructions.classification_prompt import (
@@ -25,6 +24,7 @@ classification_planner = LlmAgent(
     description="Analyzes the classification task and plans the ML workflow.",
     instruction=CLASSIFICATION_PLANNER_INSTRUCTIONS,
     model=DEFAULT_MODEL,
+    generate_content_config=GENERATE_CONTENT_CONFIG,
     output_key="classification_plan",
     tools=[google_search_tool],
     after_agent_callback=extract_session_id_callback
@@ -36,10 +36,9 @@ classification_executor = LlmAgent(
     description="Executes the planned classification workflow using PyCaret functions.",
     instruction=CLASSIFICATION_EXECUTOR_INSTRUCTIONS,
     model=DEFAULT_MODEL,
-    code_executor=UnsafeLocalCodeExecutor(),
+    generate_content_config=GENERATE_CONTENT_CONFIG,
+    code_executor=UnsafeLocalCodeExecutor(error_retry_attempts=10),
     planner=BUILTIN_PLANNER,
-    tools=[google_search_tool],
-    before_model_callback=check_failure_status_callback,
     after_agent_callback=check_execution_success_callback
 )
 

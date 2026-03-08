@@ -1,7 +1,7 @@
 To perform a classification task, utilize the Global Placement dataset.
 - CSV Path: E:\Workspace\PyCaretAgent\sample_dataset\classification\global_placement.csv
 - Metadata: For context and data definitions, refer to the accompanying documentation at E:\Workspace\PyCaretAgent\sample_dataset\classification\global_placement.md
-- Target: Classify the placement.
+- Target: Classify the "Placement prediction".
 
 
 To perform a classification task, utilize the Samsung Global Sales dataset.

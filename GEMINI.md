@@ -5,7 +5,7 @@
 `PyCaretAgent` is an agentic extension of the **PyCaret** library. It leverages the **Google Generative AI SDK (google-adk)** to create a hierarchical and sequential agent system:
 - **Root Agent (Router):** The primary entry point (an `Agent`) that interacts with the user, validates requirements, and delegates work.
 - **Specialized Sub-Agents:** Tasks like Classification and Regression are structured as `SequentialAgent` pipelines:
-    - **Planner Agent:** Designs the ML workflow, performs research using the `google_search_tool`, and generates a Session ID.
+    - **Planner Agent:** Designs the ML workflow, performs technical research using the `google_search_tool`, and generates a Session ID.
     - **Executor Agent:** Enhanced with a centralized `BUILTIN_PLANNER` (4096 thinking budget), it executes Python code, performs real-time research, and logs to MLflow.
 
 The project facilitates a complete machine learning lifecycle, starting from automated data analysis and preprocessing, moving through model training and optimization, and concluding with model deployment.
@@ -53,7 +53,7 @@ The project facilitates a complete machine learning lifecycle, starting from aut
 - **Instruction Management:** Prompts must be centralized in `pycaretagent/utils/instructions/`. Use the `SHARED_SEARCH_INSTRUCTIONS` to inform agents of their research capabilities.
 - **Data Handling:** MANDATORY: All planning agents must plan to read CSV files using `pd.read_csv()` and pass the resulting DataFrame to PyCaret's `setup()`.
 - **Experiment Tracking:** Every execution must be tracked in MLflow under an experiment named `[task]_{session_id}`.
-- **Error Resilience:** Generated code must include `try...except` blocks to log full tracebacks to `error.txt` and utilize the `check_failure_status_callback` for intelligent re-run logic.
+- **Error Resilience:** Executors use `error_retry_attempts=10` to automatically rerun and fix code on failure. 
 - **State Management:** Use the session state (`callback_context.state`) to pass Session IDs and task status between agents in the pipeline.
 
 ## Conductor Context

@@ -1,5 +1,6 @@
 google-adk
 pycaret
+pycaret[mlops]
 mlflow
 duckdb
 python-dotenv

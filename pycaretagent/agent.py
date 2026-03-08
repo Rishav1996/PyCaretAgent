@@ -4,7 +4,7 @@ Defines the Root Agent responsible for routing user requests to specialized sub-
 """
 
 from google.adk.agents.llm_agent import LlmAgent
-from pycaretagent.utils.config import DEFAULT_MODEL
+from pycaretagent.utils.config import DEFAULT_MODEL, GENERATE_CONTENT_CONFIG
 from pycaretagent.utils.tools.file_validator_tool import csv_validator_tool
 from pycaretagent.utils.instructions.route_prompt import ROUTE_INSTRUCTIONS as ROOT_AGENT_INSTRUCTIONS
 
@@ -23,6 +23,7 @@ root_agent = LlmAgent(
     description="Primary entry point for PyCaretAgent. Validates input and routes to ML specialists.",
     instruction=ROOT_AGENT_INSTRUCTIONS,
     model=DEFAULT_MODEL,
+    generate_content_config=GENERATE_CONTENT_CONFIG,
     tools=[csv_validator_tool],
     sub_agents=[
         classification_agent,

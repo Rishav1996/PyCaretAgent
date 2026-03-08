@@ -77,79 +77,6 @@ PYCARET_FUNCTIONS = [
         }
     },
     {
-        "category": "optimization",
-        "function": "tune_model",
-        "description": "Automatically tunes hyperparameters to find the best performing version of a model.",
-        "optional": True,
-        "supported_tasks": ["classification", "regression", "timeseries_forecasting"],
-        "parameters": {
-            "estimator": "The model object to be tuned.",
-            "fold": "Number of folds for cross-validation.",
-            "n_iter": "Number of iterations for hyperparameter search (default 10).",
-            "optimize": "Metric to optimize (e.g., 'Accuracy', 'F1').",
-            "search_library": "Library used for tuning ('scikit-learn', 'optuna', 'tune-sklearn', etc.).",
-            "search_algorithm": "Specific algorithm (e.g., 'random', 'grid', 'bayesian').",
-            "custom_grid": "Dictionary of specific hyperparameter values to search.",
-            "choose_better": "Boolean; if True, returns the original model if tuning doesn't improve it."
-        }
-    },
-    {
-        "category": "optimization",
-        "function": "ensemble_model",
-        "description": "Enhances a model's performance using meta-learning techniques like Bagging or Boosting.",
-        "optional": True,
-        "supported_tasks": ["classification", "regression"],
-        "parameters": {
-            "estimator": "The trained model object to ensemble.",
-            "method": "Ensembling method: 'Bagging' or 'Boosting'.",
-            "fold": "Number of folds for cross-validation.",
-            "n_estimators": "Number of base estimators in the ensemble (default 10).",
-            "choose_better": "Boolean; returns the original model if ensemble performance is lower."
-        }
-    },
-    {
-        "category": "optimization",
-        "function": "blend_models",
-        "description": "Combines multiple models by averaging their predictions (Voting) to improve accuracy.",
-        "optional": True,
-        "supported_tasks": ["classification", "regression", "timeseries_forecasting"],
-        "parameters": {
-            "estimator_list": "List of trained model objects to blend.",
-            "fold": "Number of folds for cross-validation.",
-            "method": "Voting method: 'hard' or 'soft' (classification only).",
-            "weights": "List of weights for each model in the blend.",
-            "optimize": "Metric used to determine the best model if choose_better is True."
-        }
-    },
-    {
-        "category": "optimization",
-        "function": "stack_models",
-        "description": "Layers models so a meta-model learns how to best combine base model predictions.",
-        "optional": True,
-        "supported_tasks": ["classification", "regression", "timeseries_forecasting"],
-        "parameters": {
-            "estimator_list": "List of base models to be stacked.",
-            "meta_model": "The model that learns to combine predictions (default 'lr' for LogReg/LinearReg).",
-            "fold": "Number of folds for cross-validation.",
-            "method": "How predictions are passed to meta-model ('predict' or 'predict_proba').",
-            "restack": "Boolean; if True, base models are trained on both original features and predictions."
-        }
-    },
-    {
-        "category": "analysis",
-        "function": "plot_model",
-        "description": "Generates static visualizations like AUC-ROC, Confusion Matrix, or Feature Importance.",
-        "optional": True,
-        "supported_tasks": ["classification", "regression", "timeseries_forecasting", "clustering", "anomaly_detection"],
-        "parameters": {
-            "estimator": "The trained model object.",
-            "plot": "Type of plot (e.g., 'auc', 'confusion_matrix', 'feature', 'error').",
-            "scale": "Resolution scale for the plot.",
-            "save": "Boolean or path; if True, saves the plot as a file.",
-            "use_train_data": "Boolean; if True, generates the plot using training data instead of test data."
-        }
-    },
-    {
         "category": "analysis",
         "function": "evaluate_model",
         "description": "Provides an interactive UI to view and toggle between all available performance plots.",
@@ -159,17 +86,6 @@ PYCARET_FUNCTIONS = [
             "estimator": "The trained model object.",
             "fold": "Number of folds used for the plots that require CV.",
             "fit_kwargs": "Additional arguments to pass to the model."
-        }
-    },
-    {
-        "category": "analysis",
-        "function": "dashboard",
-        "description": "Launches an interactive ExplainerDashboard for deep diagnostic analysis and SHAP values.",
-        "optional": True,
-        "supported_tasks": ["classification", "regression"],
-        "parameters": {
-            "estimator": "The trained model object.",
-            "display_format": "Format of the dashboard ('inline' for notebooks or 'external' for a browser tab)."
         }
     },
     {
@@ -212,16 +128,35 @@ PYCARET_FUNCTIONS = [
         }
     },
     {
-        "category": "production",
-        "function": "deploy_model",
-        "description": "Transmits the saved model pipeline to a cloud provider (AWS, GCP, or Azure).",
-        "optional": False,
+        "category": "deployment",
+        "function": "create_api",
+        "description": "Creates a REST API for the model using FastAPI.",
+        "optional": True,
         "supported_tasks": ["classification", "regression", "timeseries_forecasting", "clustering", "anomaly_detection"],
         "parameters": {
-            "model": "The trained model object.",
-            "model_name": "Name of the model on the cloud platform.",
-            "platform": "Cloud service provider ('aws', 'gcp', or 'azure').",
-            "authentication": "Dictionary containing cloud credentials (e.g., bucket name, access keys)."
+            "estimator": "The trained model object.",
+            "api_name": "Name of the API (string)."
+        }
+    },
+    {
+        "category": "deployment",
+        "function": "create_app",
+        "description": "Creates a basic web application for the model using Streamlit.",
+        "optional": True,
+        "supported_tasks": ["classification", "regression", "timeseries_forecasting", "clustering", "anomaly_detection"],
+        "parameters": {
+            "estimator": "The trained model object.",
+            "app_name": "Name of the app (string)."
+        }
+    },
+    {
+        "category": "deployment",
+        "function": "create_docker",
+        "description": "Creates a Dockerfile and requirements.txt for deploying the model API.",
+        "optional": True,
+        "supported_tasks": ["classification", "regression", "timeseries_forecasting", "clustering", "anomaly_detection"],
+        "parameters": {
+            "api_name": "Name of the API created with create_api."
         }
     }
 ]
@@ -230,10 +165,10 @@ PYCARET_FUNCTIONS = [
 SHARED_SEARCH_INSTRUCTIONS = (
     "\n\n### RESEARCH CAPABILITIES:\n"
     "Access the `google_search_tool` for internet research. "
-    "**MANDATORY: During the PLANNING PHASE, use this tool to resolve ambiguity, research domain-specific context, or gather external ML requirements (e.g., dataset schemas, model best practices).**\n"
-    "Research objectives include:\n"
-    "- Deciphering complex or domain-specific user intent.\n"
-    "- Validating the best PyCaret approach for specific data types.\n"
-    "- Retrieving documentation for hyperparameters or external libraries.\n"
-    "Delegate specific queries to `google_search_tool` as needed."
+    "**MANDATORY: During the PLANNING PHASE, use this tool ONLY to research technical facts regarding PyCaret, MLflow, or Pandas.**\n"
+    "Research constraints are strictly enforced:\n"
+    "- **LIBRARIES ONLY**: Limit queries to official documentation for PyCaret, MLflow, and Pandas.\n"
+    "- **NO DATASETS**: Do not research dataset schemas, descriptions, or sources.\n"
+    "- **NO SUMMARIES**: Do not ask for summaries or general context; request only specific technical data.\n"
+    "**CRITICAL**: The tool will return 'unable to find' for any query involving datasets, summarization, or unrelated libraries."
 )

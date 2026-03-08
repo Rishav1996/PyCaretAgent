@@ -18,13 +18,30 @@ ROOT_DIR = Path(__file__).parent.parent.parent
 RESULTS_DIR = ROOT_DIR / "results"
 
 # Centralized Model Names using the latest Gemini versions
+DEFAULT_MODEL = "gemini-3.1-flash-lite-preview"
 # DEFAULT_MODEL = "gemini-2.5-flash"
-DEFAULT_MODEL = "gemini-3-flash-preview"
+# DEFAULT_MODEL = "gemini-3-flash-preview"
 
 # MLflow Tracking Configuration
 MLFLOW_TRACKING_URI = "http://127.0.0.1:5000"
 
 # --- Shared Agent Components ---
+
+# Optimized Retry Policy for handling rate-limiting (429) and transient errors.
+# Wrapped in GenerateContentConfig as per ADK troubleshooting guide.
+GENERATE_CONTENT_CONFIG = types.GenerateContentConfig(
+    http_options=types.HttpOptions(
+        retry_options=types.HttpRetryOptions(
+            attempts=10,
+            initial_delay=30.0,
+            max_delay=60.0,
+            exp_base=2,
+            jitter=1.0,
+            http_status_codes=[429, 500, 503]
+        )
+    )
+)
+
 # Centralized Planner with optimized thinking budget for complex ML tasks.
 BUILTIN_PLANNER = BuiltInPlanner(
     thinking_config=types.ThinkingConfig(

@@ -11,13 +11,13 @@
 -   **Natural Language ML:** Trigger complex PyCaret workflows using simple English commands.
 -   **Sequential Pipeline Orchestration:** Sub-agents follow a rigorous `Planner -> Executor` workflow.
 -   **Advanced Reasoning (Centralized Planner):** Sub-agents leverage a centralized `BuiltInPlanner` configured in `config.py` with an optimized **4096 thinking budget** to perform deep reasoning before taking action.
--   **Integrated Research (Google Search Tool):** All agents have access to a dedicated `google_search_tool` (implemented as an `Agent` wrapped in an `AgentTool`) to research domain-specific context, dataset schemas, or ML best practices in real-time.
+-   **Integrated Research (Google Search Tool):** All agents have access to a dedicated `google_search_tool` (implemented as an `Agent` wrapped in an `AgentTool`) to research documentation for PyCaret, MLflow, or Pandas.
 -   **Centralized State & Logic:** 
-    -   **Unified Callbacks:** All execution flow logic (Session ID extraction, success signaling, failure checks) is centralized in `callbacks.py` for maximum maintainability.
-    -   **Intelligent Re-runs:** A mandatory `check_failure_status_callback` ensures that agents skip redundant calls if a task was already successfully completed.
--   **Self-Correction & Robustness:** Mandatory `try-except` blocks in generated code capture and log full tracebacks to `error.txt`.
+    -   **Unified Callbacks:** All execution flow logic (Session ID extraction, success signaling) is centralized in `callbacks.py` for maximum maintainability.
+-   **Self-Correction & Robustness:** 
+    -   **Automatic Error Recovery:** Executors are configured with `error_retry_attempts=10`, allowing the agent to automatically rerun and fix its own code if an execution error occurs.
 -   **Standardized Data Handling:** MANDATORY requirement for planners to use `pd.read_csv()` and pass the resulting DataFrame to PyCaret's `setup()`.
--   **Isolated Session Storage:** ALL session-specific artifacts (models, plots, errors) are saved in `temp/{session_id}/`.
+-   **Isolated Session Storage:** ALL session-specific artifacts (models, plots, etc.) are saved in `temp/{session_id}/`.
 -   **Exhaustive Experiment Tracking:** Built-in **MLflow** integration for real-time monitoring of metrics and parameters.
 
 ## 🏗️ Architecture
@@ -28,7 +28,7 @@ The primary orchestrator (an `Agent`) that validates user input (CSV presence vi
 ### 2. Specialized Sub-Agents (Pipelines)
 All sub-agents (Classification, Regression, Clustering, Anomaly, Time Series) are implemented as `SequentialAgent` pipelines:
 -   **Planner:** Uses centralized callbacks to extract and persist `SESSION_ID` and designs the PyCaret pipeline.
--   **Executor:** Uses the centralized `BUILTIN_PLANNER` and mandatory failure-status callbacks to execute code, log to MLflow, and manage artifacts.
+-   **Executor:** Uses the centralized `BUILTIN_PLANNER` to execute code, log to MLflow, and manage artifacts.
 
 ## 📁 Project Structure
 
@@ -66,7 +66,6 @@ PyCaretAgent/
 │   └── timeseries forecasting/
 ├── conductor/                 # Project management & track specifications
 ├── pyproject.toml             # Dependency management (uv/pip)
-├── requirements.txt           # Environment requirements
 └── README.md                  # Project documentation
 ```
 

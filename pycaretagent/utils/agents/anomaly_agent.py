@@ -7,11 +7,10 @@ implemented as a SequentialAgent for structured processing.
 from google.adk.agents.llm_agent import LlmAgent
 from google.adk.agents.sequential_agent import SequentialAgent
 from google.adk.code_executors import UnsafeLocalCodeExecutor
-from pycaretagent.utils.config import DEFAULT_MODEL, BUILTIN_PLANNER
+from pycaretagent.utils.config import DEFAULT_MODEL, BUILTIN_PLANNER, GENERATE_CONTENT_CONFIG
 from pycaretagent.utils.callbacks import (
     extract_session_id_callback, 
-    check_execution_success_callback, 
-    check_failure_status_callback
+    check_execution_success_callback
 )
 from pycaretagent.utils.tools.google_search_tool import google_search_tool
 from pycaretagent.utils.instructions.anomaly_prompt import (
@@ -25,6 +24,7 @@ anomaly_planner = LlmAgent(
     description="Analyzes the anomaly detection task and plans the ML workflow.",
     instruction=ANOMALY_PLANNER_INSTRUCTIONS,
     model=DEFAULT_MODEL,
+    generate_content_config=GENERATE_CONTENT_CONFIG,
     output_key="anomaly_plan",
     tools=[google_search_tool],
     after_agent_callback=extract_session_id_callback
@@ -36,10 +36,9 @@ anomaly_executor = LlmAgent(
     description="Executes the planned anomaly detection workflow using PyCaret functions.",
     instruction=ANOMALY_EXECUTOR_INSTRUCTIONS,
     model=DEFAULT_MODEL,
-    code_executor=UnsafeLocalCodeExecutor(),
+    generate_content_config=GENERATE_CONTENT_CONFIG,
+    code_executor=UnsafeLocalCodeExecutor(error_retry_attempts=10),
     planner=BUILTIN_PLANNER,
-    tools=[google_search_tool],
-    before_model_callback=check_failure_status_callback,
     after_agent_callback=check_execution_success_callback
 )
 
