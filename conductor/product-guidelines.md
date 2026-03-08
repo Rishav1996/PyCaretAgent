@@ -11,7 +11,6 @@
 - **No Memory Rule**: Avoid reading entire datasets into the agent's internal memory; use localized file paths and DataFrames.
 
 ## Reliability & Tracking
-- **Error Retries**: Always configure executors with `error_retry_attempts=10`.
 - **Traceback Awareness**: Mandatory `try-except` blocks in generated code to capture and log tracebacks to `error.txt`.
 - **MLflow Naming**: Experiments must be named using the `[task]_{session_id}` convention.
 - **Artifact Isolation**: All generated files MUST reside in `temp/{session_id}/`.

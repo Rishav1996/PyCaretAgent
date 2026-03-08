@@ -225,3 +225,15 @@ PYCARET_FUNCTIONS = [
         }
     }
 ]
+
+# --- SHARED SEARCH INSTRUCTIONS ---
+SHARED_SEARCH_INSTRUCTIONS = (
+    "\n\n### RESEARCH CAPABILITIES:\n"
+    "Access the `google_search_tool` for internet research. "
+    "**MANDATORY: During the PLANNING PHASE, use this tool to resolve ambiguity, research domain-specific context, or gather external ML requirements (e.g., dataset schemas, model best practices).**\n"
+    "Research objectives include:\n"
+    "- Deciphering complex or domain-specific user intent.\n"
+    "- Validating the best PyCaret approach for specific data types.\n"
+    "- Retrieving documentation for hyperparameters or external libraries.\n"
+    "Delegate specific queries to `google_search_tool` as needed."
+)

@@ -5,6 +5,8 @@ Handles model selection and environment variable loading.
 
 from dotenv import load_dotenv
 from pathlib import Path
+from google.adk.planners import BuiltInPlanner
+from google.genai import types
 
 # Load sensitive and configurable parameters from .env
 load_dotenv()
@@ -21,3 +23,13 @@ DEFAULT_MODEL = "gemini-3-flash-preview"
 
 # MLflow Tracking Configuration
 MLFLOW_TRACKING_URI = "http://127.0.0.1:5000"
+
+# --- Shared Agent Components ---
+# Centralized Planner with optimized thinking budget for complex ML tasks.
+BUILTIN_PLANNER = BuiltInPlanner(
+    thinking_config=types.ThinkingConfig(
+        include_thoughts=True,
+        thinking_budget=4096
+    )
+)
+

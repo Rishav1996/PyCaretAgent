@@ -9,5 +9,7 @@ node_modules/
 *.log
 *.tmp
 .env
+.vscode/
+.adk/
 pyproject.toml
 requirements.txt
