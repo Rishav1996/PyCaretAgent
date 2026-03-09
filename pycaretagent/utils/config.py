@@ -14,16 +14,16 @@ load_dotenv()
 # Root directory of the project
 ROOT_DIR = Path(__file__).parent.parent.parent
 
-# Results directory for sessions and artifacts
+# Results directory for final session results and global artifacts
 RESULTS_DIR = ROOT_DIR / "results"
+
+# Runs directory for session-specific isolated artifact storage
+RUNS_DIR = ROOT_DIR / "runs"
 
 # Centralized Model Names using the latest Gemini versions
 DEFAULT_MODEL = "gemini-3.1-flash-lite-preview"
 # DEFAULT_MODEL = "gemini-2.5-flash"
 # DEFAULT_MODEL = "gemini-3-flash-preview"
-
-# MLflow Tracking Configuration
-MLFLOW_TRACKING_URI = "http://127.0.0.1:5000"
 
 # --- Shared Agent Components ---
 

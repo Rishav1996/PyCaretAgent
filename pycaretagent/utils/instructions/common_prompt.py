@@ -130,7 +130,7 @@ PYCARET_FUNCTIONS = [
     {
         "category": "deployment",
         "function": "create_api",
-        "description": "Creates a REST API for the model using FastAPI.",
+        "description": "Creates a REST API for the model using FastAPI. **MANDATORY: Save results in `runs/{session_id?}/api/`.**",
         "optional": True,
         "supported_tasks": ["classification", "regression", "timeseries_forecasting", "clustering", "anomaly_detection"],
         "parameters": {
@@ -141,7 +141,7 @@ PYCARET_FUNCTIONS = [
     {
         "category": "deployment",
         "function": "create_app",
-        "description": "Creates a basic web application for the model using Streamlit.",
+        "description": "Creates a basic web application for the model using Streamlit. **MANDATORY: Save results in `runs/{session_id?}/app/`.**",
         "optional": True,
         "supported_tasks": ["classification", "regression", "timeseries_forecasting", "clustering", "anomaly_detection"],
         "parameters": {
@@ -152,7 +152,7 @@ PYCARET_FUNCTIONS = [
     {
         "category": "deployment",
         "function": "create_docker",
-        "description": "Creates a Dockerfile and requirements.txt for deploying the model API.",
+        "description": "Creates a Dockerfile and requirements.txt for deploying the model API. **MANDATORY: Save results in `runs/{session_id?}/docker/`.**",
         "optional": True,
         "supported_tasks": ["classification", "regression", "timeseries_forecasting", "clustering", "anomaly_detection"],
         "parameters": {
@@ -165,10 +165,11 @@ PYCARET_FUNCTIONS = [
 SHARED_SEARCH_INSTRUCTIONS = (
     "\n\n### RESEARCH CAPABILITIES:\n"
     "Access the `google_search_tool` for internet research. "
-    "**MANDATORY: During the PLANNING PHASE, use this tool ONLY to research technical facts regarding PyCaret, MLflow, or Pandas.**\n"
+    "**MANDATORY: During the PLANNING PHASE, use this tool ONLY to research technical facts regarding PyCaret or Pandas.**\n"
     "Research constraints are strictly enforced:\n"
-    "- **LIBRARIES ONLY**: Limit queries to official documentation for PyCaret, MLflow, and Pandas.\n"
+    "- **LIBRARIES ONLY**: Limit queries to official documentation for PyCaret and Pandas.\n"
     "- **NO DATASETS**: Do not research dataset schemas, descriptions, or sources.\n"
     "- **NO SUMMARIES**: Do not ask for summaries or general context; request only specific technical data.\n"
     "**CRITICAL**: The tool will return 'unable to find' for any query involving datasets, summarization, or unrelated libraries."
 )
+

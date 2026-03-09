@@ -2,15 +2,15 @@
 
 ## Engineering Standards
 - **Hierarchical Structure**: Maintain the distinction between the Root Router and the Specialized Sequential Sub-Agents.
-- **Explicit Imports**: Always use `google.adk` for Google Generative AI SDK imports.
-- **Surgical Updates**: Prefer targeted edits to files rather than full overwrites where possible.
+- **Explicit Imports**: Always use `google.adk` for ADK-related code.
+- **Sequential Flows**: Sub-agents MUST follow the `Planner -> Executor` sequence.
+- **Alphanumeric IDs**: Session IDs must be exactly 6 characters and include both letters and numbers.
 
-## Data Handling Rules (MANDATORY)
-- **Pandas Core**: ALL planning agents MUST plan to read CSV files using `pd.read_csv()`.
-- **Explicit Dataframe passing**: The resulting DataFrame must be passed directly to PyCaret's `setup()` function.
-- **No Memory Rule**: Avoid reading entire datasets into the agent's internal memory; use localized file paths and DataFrames.
+## Data & Artifacts
+- **Isolated Storage**: ALL session-specific generated files (CSV, plots, models) MUST be saved inside `runs/{session_id}/`.
+- **DataFrame Preference**: Planners must plan to read CSVs using `pd.read_csv()` and pass the DataFrame to `setup()`.
 
 ## Reliability & Tracking
-- **Traceback Awareness**: Mandatory `try-except` blocks in generated code to capture and log tracebacks to `error.txt`.
-- **MLflow Naming**: Experiments must be named using the `[task]_{session_id}` convention.
-- **Artifact Isolation**: All generated files MUST reside in `temp/{session_id}/`.
+- **Error Resilience**: Executors use `error_retry_attempts=10` to automatically rerun and fix code on failure. 
+- **Task Finality**: Executors must provide a final summary and conclude the task upon successful completion to exit the control loop.
+- **State Persistence**: Utilize `callback_context.state` to pass data between sub-agents in a sequential pipeline.

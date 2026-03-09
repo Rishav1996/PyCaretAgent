@@ -2,12 +2,12 @@
 
 Welcome to the project management hub for **PyCaretAgent**. This directory contains the specifications, architectural guidelines, and track tracking for the autonomous ML agent framework.
 
-## 📄 Core Documents
+## 📄 Project Documentation
 
-- [**Product Definition**](./product.md): Vision, target audience, and core value proposition.
-- [**Tech Stack**](./tech-stack.md): Detailed breakdown of the libraries and tools used.
-- [**Workflow**](./workflow.md): The agentic lifecycle from natural language to MLflow artifacts.
-- [**Product Guidelines**](./product-guidelines.md): Engineering standards and "No Memory" data handling rules.
+- [**Product Definition**](./product.md): The core vision, goals, and feature set.
+- [**Tech Stack**](./tech-stack.md): The underlying libraries and frameworks.
+- [**Workflow**](./workflow.md): The agentic lifecycle from natural language to local artifacts.
+- [**Product Guidelines**](./product-guidelines.md): Mandatory engineering and data standards.
 
 ## 🛣️ Development Roadmap
 

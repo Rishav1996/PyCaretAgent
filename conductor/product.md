@@ -1,15 +1,16 @@
 # Product Definition: PyCaretAgent
 
-## Vision
-PyCaretAgent is an autonomous AI agent framework that simplifies the machine learning lifecycle by extending **PyCaret** with advanced reasoning and tool-use capabilities. It allows users to execute end-to-end ML workflows using simple natural language commands.
+## Core Vision
+`PyCaretAgent` is designed to democratize and automate the machine learning lifecycle. By combining the low-code power of **PyCaret** with the reasoning capabilities of **Gemini**, it allows users to go from raw data to production models using simple natural language.
 
-## Target Audience
-- Data scientists looking to automate repetitive AutoML tasks.
-- Developers who need to integrate ML capabilities without deep library-specific knowledge.
-- ML Engineers focusing on experiment tracking and reproducibility.
+## Key Goals
+- **Natural Language ML**: Enable complex data science tasks through conversation.
+- **Sequential Precision**: Ensure high-quality results via mandatory Planner -> Executor pipelines.
+- **Isolated Artifacts**: Local session-based storage for all models and outputs.
+- **Research-Driven**: Integrated internet research for technical verification during planning.
 
-## Core Value Proposition
-- **Natural Language to ML**: Bridge the gap between human intent and PyCaret function calls.
-- **Hierarchical Reasoning**: A Root Agent delegates to specialized sub-agents (Classification, Regression, etc.).
-- **Built-In Robustness**: Self-correction logic with 10 retry attempts and detailed error logging.
-- **Production-Ready Artifacts**: Automatic experiment tracking in MLflow and session-based artifact isolation.
+## Product Features
+- **Multi-Module Support**: Classification, Regression, Clustering, Anomaly Detection, and Time Series Forecasting.
+- **Deep Reasoning**: Built-in thinking budget for planners to handle complex requirements.
+- **Production-Ready Artifacts**: Automatic session-based artifact isolation in the `runs/` directory.
+- **Self-Healing Execution**: Automatic error detection and retry mechanism.

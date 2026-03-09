@@ -11,14 +11,15 @@
 -   **Natural Language ML:** Trigger complex PyCaret workflows using simple English commands.
 -   **Sequential Pipeline Orchestration:** Sub-agents follow a rigorous `Planner -> Executor` workflow.
 -   **Advanced Reasoning (Centralized Planner):** Sub-agents leverage a centralized `BuiltInPlanner` configured in `config.py` with an optimized **4096 thinking budget** to perform deep reasoning before taking action.
--   **Integrated Research (Google Search Tool):** All agents have access to a dedicated `google_search_tool` (implemented as an `Agent` wrapped in an `AgentTool`) to research documentation for PyCaret, MLflow, or Pandas.
+-   **Integrated Research (Google Search Tool):** All agents have access to a dedicated `google_search_tool` (implemented as an `Agent` wrapped in an `AgentTool`) to research documentation for PyCaret or Pandas.
 -   **Centralized State & Logic:** 
     -   **Unified Callbacks:** All execution flow logic (Session ID extraction, success signaling) is centralized in `callbacks.py` for maximum maintainability.
 -   **Self-Correction & Robustness:** 
     -   **Automatic Error Recovery:** Executors are configured with `error_retry_attempts=10`, allowing the agent to automatically rerun and fix its own code if an execution error occurs.
+    -   **Task Finality:** All specialized executors are instructed to provide a final summary and conclude the task upon successful completion to efficiently exit the control loop.
 -   **Standardized Data Handling:** MANDATORY requirement for planners to use `pd.read_csv()` and pass the resulting DataFrame to PyCaret's `setup()`.
--   **Isolated Session Storage:** ALL session-specific artifacts (models, plots, etc.) are saved in `temp/{session_id}/`.
--   **Exhaustive Experiment Tracking:** Built-in **MLflow** integration for real-time monitoring of metrics and parameters.
+-   **Isolated Session Storage:** ALL session-specific artifacts (models, plots, etc.) are saved in `runs/{session_id}/`.
+
 
 ## 🏗️ Architecture
 
@@ -28,7 +29,7 @@ The primary orchestrator (an `Agent`) that validates user input (CSV presence vi
 ### 2. Specialized Sub-Agents (Pipelines)
 All sub-agents (Classification, Regression, Clustering, Anomaly, Time Series) are implemented as `SequentialAgent` pipelines:
 -   **Planner:** Uses centralized callbacks to extract and persist `SESSION_ID` and designs the PyCaret pipeline.
--   **Executor:** Uses the centralized `BUILTIN_PLANNER` to execute code, log to MLflow, and manage artifacts.
+-   **Executor:** Uses the centralized `BUILTIN_PLANNER` to execute code and manage artifacts.
 
 ## 📁 Project Structure
 
@@ -38,7 +39,7 @@ PyCaretAgent/
 │   ├── agent.py               # Root Orchestrator (Router)
 │   ├── __init__.py
 │   └── utils/
-│       ├── config.py          # Centralized configuration (Planners, Models, MLflow)
+│       ├── config.py          # Centralized configuration (Planners, Models)
 │       ├── callbacks.py       # Centralized execution flow & state logic
 │       ├── agents/            # Sequential Sub-Agent Definitions
 │       │   ├── anomaly_agent.py
@@ -58,6 +59,8 @@ PyCaretAgent/
 │       └── tools/             # Reusable Agent Tools & Tool-Wrappers
 │           ├── file_validator_tool.py
 │           └── google_search_tool.py  # Agent-as-Tool implementation
+├── runs/                      # Session-specific isolated artifact storage (local)
+├── results/                   # Final session results and global artifacts
 ├── sample_dataset/            # Organized test datasets with instructions
 │   ├── anomaly detection/
 │   ├── classification/
@@ -73,7 +76,6 @@ PyCaretAgent/
 
 ### Prerequisites
 -   Python 3.12 or higher.
--   A local MLflow server (`mlflow ui --port 5000`).
 
 ### Installation
 1.  **Clone the repository:**
@@ -92,9 +94,6 @@ Initialize the root agent and provide a path to your dataset:
 from pycaretagent.agent import root_agent
 ```
 Example prompt: *"Perform a classification task on 'sample_dataset/classification/heart.csv' where the target is 'target'."*
-
-## 📊 Experiment Tracking
-All experiments are automatically tracked in MLflow under the naming convention `[task]_{session_id}`.
 
 ## 📄 License
 This project is licensed under the MIT License.
