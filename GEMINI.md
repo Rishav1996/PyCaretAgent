@@ -2,14 +2,11 @@
 
 ## Project Overview
 
-`PyCaretAgent` is an agentic extension of the **PyCaret** library. It leverages the **Google Generative AI SDK (google-adk)** to create a hierarchical and sequential agent system:
-- **Root Agent (Router):** The primary entry point (an `Agent`) that interacts with the user, validates requirements, and delegates work.
-- **Specialized Sub-Agents:** Tasks like Classification and Regression are structured as `SequentialAgent` pipelines:
-    - **Planner Agent:** Designs the ML workflow, performs technical research using the `google_search_tool`, and generates a Session ID.
-    - **Executor Agent:** Enhanced with a centralized `BUILTIN_PLANNER` (4096 thinking budget), it executes Python code and performs real-time research.
+`PyCaretAgent` is an agentic extension of the **PyCaret** library. It leverages the **Google Generative AI SDK (google-adk)** to create a high-precision autonomous ML system:
+- **Root Agent (Router):** The primary entry point (an `Agent`) that interacts with the user, validates requirements (e.g., CSV existence), and delegates work.
+- **Specialized Sub-Agents:** Tasks like Classification and Regression are handled by **Senior ML Automation Architects** (executors) that manage the entire ML lifecycle in a unified flow.
 
-
-The project facilitates a complete machine learning lifecycle, starting from automated data analysis and preprocessing, moving through model training and optimization, and concluding with model deployment.
+The project facilitates a complete machine learning lifecycle, starting from automated data analysis and schema discovery, moving through model training and comparison, and concluding with model persistence and code archiving.
 
 ## Tech Stack
 
@@ -28,35 +25,32 @@ The project facilitates a complete machine learning lifecycle, starting from aut
         - `config.py`: Centralized configuration (Models and Shared Planners).
         - `callbacks.py`: Centralized execution flow logic (Session ID extraction, state management).
         - `agents/`: Specialized Sub-Agent definitions (Classification, Regression, etc.).
-        - `instructions/`: Optimized persona-based system prompts.
-        - `tools/`: Reusable agent tools and tool-wrappers.
+        - `instructions/`: Role-based system prompts (Senior ML Automation Architect).
+        - `tools/`: Reusable agent tools.
             - `file_validator_tool.py`: CSV path validation.
-            - `google_search_tool.py`: Agent-as-Tool implementation for integrated research.
+            - `google_search_tool.py`: Agent-as-Tool implementation for documentation research.
+            - `csv_analytics_tool.py`: Programmatic pandas metadata retrieval (info, describe).
+            - `session_id_generator_tool.py`: Unique run identification.
 - `runs/`: Local storage for session-specific artifacts (`{session_id}/`).
-- `results/`: Final session results and global artifacts.
+    - Sub-folders: `plots/`, `models/`, `metrics/`.
 - `sample_dataset/`: Organized test data with usage instructions.
-    - `anomaly detection/`
-    - `classification/`
-    - `clustering/`
-    - `regression/`
-    - `timeseries forecasting/`
 - `conductor/`: Project management and detailed specifications.
 - `GEMINI.md`: Project-specific instructions and context for Gemini CLI (this file).
 
 ## Development Guidelines
 
-- **Agent Hierarchy & Sequence:** Maintain the distinction between the Root Router and Sub-Agent pipelines. Ensure sub-agents follow the Planner -> Executor sequence.
+- **Simplified Agent Architecture:** Sub-agents are single-agent executors (Automation Architects) that handle analysis, planning, and code execution.
 - **Import Convention:** Always use `google.adk` for imports from the Google Generative AI SDK.
 - **Centralized Components:**
-    - **Planners:** Use the `BUILTIN_PLANNER` (4096 budget) from `config.py` for all executors.
-    - **Callbacks:** All flow-control logic must reside in `callbacks.py`.
-- **Agent-as-Tool Pattern:** Complex tool behaviors (like research) must be implemented as an internal `Agent` wrapped in an `AgentTool` to enable direct, synchronous invocation.
-- **Instruction Management:** Prompts must be centralized in `pycaretagent/utils/instructions/`. Use the `SHARED_SEARCH_INSTRUCTIONS` to inform agents of their research capabilities.
-- **Data Handling:** MANDATORY: All planning agents must plan to read CSV files using `pd.read_csv()` and pass the resulting DataFrame to PyCaret's `setup()`.
-- **Error Resilience:** Executors use `error_retry_attempts=10` to automatically rerun and fix code on failure. 
-- **Task Finality:** Executors are instructed to provide a final summary and conclude the task upon successful completion to exit the agent's control loop.
-- **State Management:** Use the session state (`callback_context.state`) to pass Session IDs and task status between agents in the pipeline.
+    - **Planners:** Use the `BUILTIN_PLANNER` (4096 budget) from `config.py` for all sub-agents.
+    - **Callbacks:** Flow-control logic resides in `callbacks.py`.
+- **Data Intelligence:** MANDATORY: Use `csv_analytics_tool` to evaluate schemas before designing the PyCaret setup.
+- **Session Tracking:** MANDATORY: Call `session_id_generator_tool` at the start of every run to establish directory isolation.
+- **Instruction Management:** Prompts are centralized in `pycaretagent/utils/instructions/`. Use the `SHARED_SEARCH_INSTRUCTIONS` for consistent research and data analytics protocols.
+- **Error Resilience:** Agents use `error_retry_attempts=10` to automatically fix code on failure. 
+- **Task Finality:** Agents must provide a final summary and conclude the task to exit the control loop upon success.
+- **Workspace Hierarchy:** All artifacts must be saved under `runs/{session_id?}/` and organized into `plots/`, `models/`, and `metrics/`.
 
 ## Conductor Context
 
-Refer to `conductor/index.md` for detailed product requirements, track progress, and the evolving implementation plan as guided by the user.
+Refer to `conductor/index.md` for detailed product requirements, track progress, and the evolving implementation plan.

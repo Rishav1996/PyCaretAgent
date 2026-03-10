@@ -23,7 +23,8 @@ PYCARET_FUNCTIONS = [
             "remove_outliers": "Boolean to remove outliers from the training data.",
             "fix_imbalance": "Boolean to handle class imbalance (classification only).",
             "html": "Boolean to prevent printing the setup summary grid in certain IDEs."
-        }
+        },
+        "example": "setup(data=df, target='target_col', session_id=123, normalize=True)"
     },
     {
         "category": "initialization",
@@ -33,7 +34,8 @@ PYCARET_FUNCTIONS = [
         "supported_tasks": ["classification", "regression", "timeseries_forecasting", "clustering", "anomaly_detection"],
         "parameters": {
             "display_format": "Option to specify the format of the output (e.g., 'svg' for high-quality images)."
-        }
+        },
+        "example": "eda(display_format='svg')"
     },
     {
         "category": "model selection",
@@ -44,7 +46,8 @@ PYCARET_FUNCTIONS = [
         "parameters": {
             "type": "Filter models by type (e.g., 'ensemble').",
             "internal": "Boolean to show internal models not typically exposed to the user."
-        }
+        },
+        "example": "models(type='ensemble')"
     },
     {
         "category": "model selection",
@@ -60,7 +63,8 @@ PYCARET_FUNCTIONS = [
             "n_select": "Number of top models to return as a list (default 1).",
             "errors": "Handle errors during training ('raise' or 'ignore').",
             "probability_threshold": "Threshold for converting probabilities to class labels (classification only)."
-        }
+        },
+        "example": "best_model = compare_models(sort='F1', n_select=1)"
     },
     {
         "category": "model selection",
@@ -74,7 +78,8 @@ PYCARET_FUNCTIONS = [
             "round": "Number of decimal places for score grid (default 4).",
             "cross_validation": "Boolean to determine if CV should be performed.",
             "fit_kwargs": "Dictionary of additional parameters to pass to the estimator's fit method."
-        }
+        },
+        "example": "rf_model = create_model('rf', fold=5)"
     },
     {
         "category": "analysis",
@@ -86,7 +91,31 @@ PYCARET_FUNCTIONS = [
             "estimator": "The trained model object.",
             "fold": "Number of folds used for the plots that require CV.",
             "fit_kwargs": "Additional arguments to pass to the model."
-        }
+        },
+        "example": "evaluate_model(best_model)"
+    },
+    {
+        "category": "analysis",
+        "function": "get_metrics",
+        "description": "Returns a table of all metrics used for model evaluation in the current experiment.",
+        "optional": False,
+        "supported_tasks": ["classification", "regression", "timeseries_forecasting", "clustering", "anomaly_detection"],
+        "parameters": {
+            "raise_errors": "Boolean; if True, raises an error if no metrics are found."
+        },
+        "example": "metrics_df = get_metrics()"
+    },
+    {
+        "category": "analysis",
+        "function": "get_logs",
+        "description": "Returns a table of experiment logs if logging (e.g., MLflow) is enabled.",
+        "optional": False,
+        "supported_tasks": ["classification", "regression", "timeseries_forecasting", "clustering", "anomaly_detection"],
+        "parameters": {
+            "experiment_name": "String; the name of the experiment to retrieve logs for.",
+            "save": "Boolean; whether to save the logs to a CSV file."
+        },
+        "example": "logs_df = get_logs(save=True)"
     },
     {
         "category": "production",
@@ -100,7 +129,8 @@ PYCARET_FUNCTIONS = [
             "probability_threshold": "Threshold for classification (default 0.5).",
             "raw_score": "Boolean; if True, returns scores for all classes in classification.",
             "round": "Decimal places for predicted values."
-        }
+        },
+        "example": "predictions = predict_model(best_model, data=unseen_data)"
     },
     {
         "category": "production",
@@ -112,7 +142,8 @@ PYCARET_FUNCTIONS = [
             "estimator": "The trained model object.",
             "fit_kwargs": "Additional arguments to pass to the underlying estimator.",
             "model_only": "Boolean; if True, only the model is finalized without the preprocessing pipeline."
-        }
+        },
+        "example": "final_model = finalize_model(best_model)"
     },
     {
         "category": "production",
@@ -125,39 +156,8 @@ PYCARET_FUNCTIONS = [
             "model_name": "String; the filename for the saved .pkl file.",
             "prep_pipe": "Boolean; whether to include the preprocessing pipeline in the file.",
             "verbose": "Boolean; whether to print the success message."
-        }
-    },
-    {
-        "category": "deployment",
-        "function": "create_api",
-        "description": "Creates a REST API for the model using FastAPI. **MANDATORY: Save results in `runs/{session_id?}/api/`.**",
-        "optional": True,
-        "supported_tasks": ["classification", "regression", "timeseries_forecasting", "clustering", "anomaly_detection"],
-        "parameters": {
-            "estimator": "The trained model object.",
-            "api_name": "Name of the API (string)."
-        }
-    },
-    {
-        "category": "deployment",
-        "function": "create_app",
-        "description": "Creates a basic web application for the model using Streamlit. **MANDATORY: Save results in `runs/{session_id?}/app/`.**",
-        "optional": True,
-        "supported_tasks": ["classification", "regression", "timeseries_forecasting", "clustering", "anomaly_detection"],
-        "parameters": {
-            "estimator": "The trained model object.",
-            "app_name": "Name of the app (string)."
-        }
-    },
-    {
-        "category": "deployment",
-        "function": "create_docker",
-        "description": "Creates a Dockerfile and requirements.txt for deploying the model API. **MANDATORY: Save results in `runs/{session_id?}/docker/`.**",
-        "optional": True,
-        "supported_tasks": ["classification", "regression", "timeseries_forecasting", "clustering", "anomaly_detection"],
-        "parameters": {
-            "api_name": "Name of the API created with create_api."
-        }
+        },
+        "example": "save_model(final_model, 'my_final_pipeline')"
     }
 ]
 
@@ -170,6 +170,11 @@ SHARED_SEARCH_INSTRUCTIONS = (
     "- **LIBRARIES ONLY**: Limit queries to official documentation for PyCaret and Pandas.\n"
     "- **NO DATASETS**: Do not research dataset schemas, descriptions, or sources.\n"
     "- **NO SUMMARIES**: Do not ask for summaries or general context; request only specific technical data.\n"
-    "**CRITICAL**: The tool will return 'unable to find' for any query involving datasets, summarization, or unrelated libraries."
+    "**CRITICAL**: The tool will return 'unable to find' for any query involving datasets, summarization, or unrelated libraries.\n\n"
+    "### DATA ANALYTICS:\n"
+    "- **CSV ANALYTICS**: Use the `csv_analytics_tool` to retrieve technical metadata (schemas, distributions, null counts) for any provided CSV path. This is MANDATORY for precise pipeline design.\n"
+    "- **SESSION ID**: Use the `session_id_generator_tool` to generate a unique ID for the current run. This ID MUST be used for directory isolation.\n\n"
+    "### CODE EXECUTION:\n"
+    "- **NO NATIVE TOOLS**: Do not use `google:python_interpreter` or any other native tool for code execution.\n"
+    "- **MARKDOWN ONLY**: Always wrap Python code in ```python Markdown blocks for the `UnsafeLocalCodeExecutor` to process.\n"
 )
-

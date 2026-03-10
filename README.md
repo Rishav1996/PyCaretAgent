@@ -4,32 +4,33 @@
 
 ## 🚀 Overview
 
-`PyCaretAgent` implements a sophisticated hierarchical and sequential agent system. A **Root Agent** (Router) orchestrates specialized **Sub-Agents** (Classification, Regression, etc.), which are themselves structured as multi-step pipelines to ensure high-precision planning and execution.
+`PyCaretAgent` implements a high-precision autonomous ML system. A **Root Agent** (Router) orchestrates specialized **Sub-Agents** (Classification, Regression, etc.), which are designed as **Senior ML Automation Architects** capable of handling the entire lifecycle from data intelligence to model persistence.
 
 ## ✨ Key Features
 
 -   **Natural Language ML:** Trigger complex PyCaret workflows using simple English commands.
--   **Sequential Pipeline Orchestration:** Sub-agents follow a rigorous `Planner -> Executor` workflow.
--   **Advanced Reasoning (Centralized Planner):** Sub-agents leverage a centralized `BuiltInPlanner` configured in `config.py` with an optimized **4096 thinking budget** to perform deep reasoning before taking action.
--   **Integrated Research (Google Search Tool):** All agents have access to a dedicated `google_search_tool` (implemented as an `Agent` wrapped in an `AgentTool`) to research documentation for PyCaret or Pandas.
--   **Centralized State & Logic:** 
-    -   **Unified Callbacks:** All execution flow logic (Session ID extraction, success signaling) is centralized in `callbacks.py` for maximum maintainability.
+-   **Autonomous ML Lifecycle:** Sub-agents handle analysis, planning, and execution in a single unified flow.
+-   **Advanced Reasoning (Centralized Planner):** All agents leverage a centralized `BuiltInPlanner` configured with an optimized **4096 thinking budget** for deep architectural reasoning.
+-   **Data Intelligence:** Uses a dedicated `csv_analytics_tool` to programmatically retrieve schemas, distributions, and null counts before pipeline design.
+-   **Integrated Research (Google Search Tool):** Direct access to `google_search_tool` for real-time technical documentation lookups for PyCaret and Pandas.
+-   **Programmatic Session Tracking:** Uses `session_id_generator_tool` to ensure every run is uniquely identified and isolated.
+-   **Structured Workspace Management:** Automatically creates and organizes artifacts into `plots/`, `models/`, and `metrics/` sub-directories within isolated session folders.
 -   **Self-Correction & Robustness:** 
-    -   **Automatic Error Recovery:** Executors are configured with `error_retry_attempts=10`, allowing the agent to automatically rerun and fix its own code if an execution error occurs.
-    -   **Task Finality:** All specialized executors are instructed to provide a final summary and conclude the task upon successful completion to efficiently exit the control loop.
--   **Standardized Data Handling:** MANDATORY requirement for planners to use `pd.read_csv()` and pass the resulting DataFrame to PyCaret's `setup()`.
--   **Isolated Session Storage:** ALL session-specific artifacts (models, plots, etc.) are saved in `runs/{session_id}/`.
-
+    -   **Automatic Error Recovery:** Executors use `error_retry_attempts=10` to automatically rerun and fix code on failure.
+    -   **Task Finality:** Agents provide comprehensive final summaries and conclude tasks to exit the control loop efficiently.
+-   **Isolated Session Storage:** ALL session-specific artifacts are saved in `runs/{session_id}/`.
 
 ## 🏗️ Architecture
 
 ### 1. Root Agent
-The primary orchestrator (an `Agent`) that validates user input (CSV presence via `csv_validator_tool`) and delegates tasks to the appropriate specialized sub-agent.
+The primary entry point (an `Agent`) that validates user requirements (e.g., CSV path validation via `csv_validator_tool`) and routes the request to the appropriate specialized sub-agent.
 
-### 2. Specialized Sub-Agents (Pipelines)
-All sub-agents (Classification, Regression, Clustering, Anomaly, Time Series) are implemented as `SequentialAgent` pipelines:
--   **Planner:** Uses centralized callbacks to extract and persist `SESSION_ID` and designs the PyCaret pipeline.
--   **Executor:** Uses the centralized `BUILTIN_PLANNER` to execute code and manage artifacts.
+### 2. Specialized Sub-Agents (Senior ML Automation Architects)
+Sub-agents (Classification, Regression, Clustering, Anomaly, Time Series) are implemented as highly specialized `LlmAgent` instances:
+-   **Data Intelligence Phase:** Analyzes dataset metadata using `csv_analytics_tool`.
+-   **Architectural Phase:** Designs the ML pipeline and generates a unique `SESSION_ID`.
+-   **Execution Phase:** Implements the pipeline using PyCaret, saving all code, data snapshots, models, and visualizations.
+-   **Organization Phase:** Persists all artifacts into a structured directory hierarchy.
 
 ## 📁 Project Structure
 
@@ -41,13 +42,13 @@ PyCaretAgent/
 │   └── utils/
 │       ├── config.py          # Centralized configuration (Planners, Models)
 │       ├── callbacks.py       # Centralized execution flow & state logic
-│       ├── agents/            # Sequential Sub-Agent Definitions
+│       ├── agents/            # Specialized Sub-Agent Definitions
 │       │   ├── anomaly_agent.py
 │       │   ├── classification_agent.py
 │       │   ├── clustering_agent.py
 │       │   ├── regression_agent.py
 │       │   └── ts_agent.py
-│       ├── instructions/      # Persona-based System Prompts (Optimized)
+│       ├── instructions/      # Role-based System Prompts (Optimized)
 │       │   ├── anomaly_prompt.py
 │       │   ├── classification_prompt.py
 │       │   ├── clustering_prompt.py
@@ -56,17 +57,14 @@ PyCaretAgent/
 │       │   ├── regression_prompt.py
 │       │   ├── route_prompt.py
 │       │   └── ts_prompt.py
-│       └── tools/             # Reusable Agent Tools & Tool-Wrappers
+│       └── tools/             # Reusable Agent Tools
 │           ├── file_validator_tool.py
-│           └── google_search_tool.py  # Agent-as-Tool implementation
-├── runs/                      # Session-specific isolated artifact storage (local)
-├── results/                   # Final session results and global artifacts
+│           ├── google_search_tool.py
+│           ├── csv_analytics_tool.py
+│           ├── session_id_generator_tool.py
+│           └── file_writer_tool.py
+├── runs/                      # Isolated Session Storage ({session_id}/)
 ├── sample_dataset/            # Organized test datasets with instructions
-│   ├── anomaly detection/
-│   ├── classification/
-│   ├── clustering/
-│   ├── regression/
-│   └── timeseries forecasting/
 ├── conductor/                 # Project management & track specifications
 ├── pyproject.toml             # Dependency management (uv/pip)
 └── README.md                  # Project documentation

@@ -1,11 +1,9 @@
 """
 Time Series Sub-Agent for PyCaretAgent.
-Specializes in forecasting workflows using PyCaret's Time Series module,
-implemented as a SequentialAgent for structured processing.
+Specializes in forecasting workflows using PyCaret's Time Series module.
 """
 
 from google.adk.agents.llm_agent import LlmAgent
-from google.adk.agents.sequential_agent import SequentialAgent
 from google.adk.code_executors import UnsafeLocalCodeExecutor
 from pycaretagent.utils.config import DEFAULT_MODEL, BUILTIN_PLANNER, GENERATE_CONTENT_CONFIG
 from pycaretagent.utils.callbacks import (
@@ -13,43 +11,22 @@ from pycaretagent.utils.callbacks import (
     check_execution_success_callback
 )
 from pycaretagent.utils.tools.google_search_tool import google_search_tool
+from pycaretagent.utils.tools.csv_analytics_tool import csv_analytics_tool
+from pycaretagent.utils.tools.session_id_generator_tool import session_id_generator_tool
 from pycaretagent.utils.instructions.ts_prompt import (
-    TS_PLANNER_INSTRUCTIONS,
     TS_EXECUTOR_INSTRUCTIONS
 )
 
-# Sub-Agent: Planner (Analyzes the task and plans the time series workflow)
-ts_planner = LlmAgent(
-    name="ts_planner",
-    description="Analyzes the forecasting task and plans the ML workflow.",
-    instruction=TS_PLANNER_INSTRUCTIONS,
-    model=DEFAULT_MODEL,
-    generate_content_config=GENERATE_CONTENT_CONFIG,
-    output_key="ts_plan",
-    tools=[google_search_tool],
-    after_agent_callback=extract_session_id_callback
-)
-
-# Sub-Agent: Executor (Performs training, comparison, and evaluation)
-ts_executor = LlmAgent(
-    name="ts_executor",
-    description="Executes the planned forecasting workflow using PyCaret functions.",
+# Time Series Agent: Senior ML Automation Architect
+# Architects and executes the time series forecasting workflow.
+ts_agent = LlmAgent(
+    name="ts_agent",
+    description="Architects and executes the time series forecasting workflow using PyCaret functions.",
     instruction=TS_EXECUTOR_INSTRUCTIONS,
     model=DEFAULT_MODEL,
     generate_content_config=GENERATE_CONTENT_CONFIG,
     code_executor=UnsafeLocalCodeExecutor(error_retry_attempts=10),
     planner=BUILTIN_PLANNER,
-    after_agent_callback=check_execution_success_callback
-)
-
-# Initialize the Time Series Agent as a SequentialAgent
-# This agent orchestrates the sub-agents in a strict sequence: 
-# Planner -> Executor
-ts_agent = SequentialAgent(
-    name="ts_agent",
-    description="Structured time series forecasting workflow.",
-    sub_agents=[
-        ts_planner, 
-        ts_executor
-    ]
+    tools=[google_search_tool, csv_analytics_tool, session_id_generator_tool],
+    after_agent_callback=extract_session_id_callback
 )
