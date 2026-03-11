@@ -61,8 +61,7 @@ PyCaretAgent/
 │           ├── file_validator_tool.py
 │           ├── google_search_tool.py
 │           ├── csv_analytics_tool.py
-│           ├── session_id_generator_tool.py
-│           └── file_writer_tool.py
+│           └── session_id_generator_tool.py
 ├── runs/                      # Isolated Session Storage ({session_id}/)
 ├── sample_dataset/            # Organized test datasets with instructions
 ├── conductor/                 # Project management & track specifications

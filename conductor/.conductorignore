@@ -13,3 +13,4 @@ node_modules/
 .adk/
 pyproject.toml
 requirements.txt
+sample_dataset/

@@ -14,7 +14,6 @@ from pycaretagent.utils.agents.regression_agent import regression_agent
 from pycaretagent.utils.agents.clustering_agent import clustering_agent
 from pycaretagent.utils.agents.anomaly_agent import anomaly_agent
 from pycaretagent.utils.agents.ts_agent import ts_agent
-from pycaretagent.utils.tools.google_search_tool import google_search_tool
 
 # The Root Agent acts as a Router.
 # Reverted back to LlmAgent as per user request.

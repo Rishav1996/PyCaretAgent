@@ -3,7 +3,6 @@ Shared callbacks for PyCaretAgent to control execution flow and manage session s
 """
 
 import re
-from typing import Any
 from google.adk.agents.callback_context import CallbackContext
 
 def extract_session_id_callback(callback_context: CallbackContext):
@@ -22,11 +21,4 @@ def extract_session_id_callback(callback_context: CallbackContext):
                 callback_context.state["session_id"] = session_id
                 return None
     
-    return None
-
-def check_execution_success_callback(callback_context: CallbackContext):
-    """
-    Generic callback to signal that an executor ran successfully.
-    """
-    callback_context.state["task_completed"] = True
     return None

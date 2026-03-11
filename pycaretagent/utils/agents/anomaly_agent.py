@@ -7,8 +7,7 @@ from google.adk.agents.llm_agent import LlmAgent
 from google.adk.code_executors import UnsafeLocalCodeExecutor
 from pycaretagent.utils.config import DEFAULT_MODEL, BUILTIN_PLANNER, GENERATE_CONTENT_CONFIG
 from pycaretagent.utils.callbacks import (
-    extract_session_id_callback, 
-    check_execution_success_callback
+    extract_session_id_callback
 )
 from pycaretagent.utils.tools.google_search_tool import google_search_tool
 from pycaretagent.utils.tools.csv_analytics_tool import csv_analytics_tool

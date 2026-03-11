@@ -4,7 +4,6 @@ Handles model selection and environment variable loading.
 """
 
 from dotenv import load_dotenv
-from pathlib import Path
 from google.adk.planners import BuiltInPlanner
 from google.genai import types
 
