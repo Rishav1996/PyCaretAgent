@@ -82,6 +82,53 @@ PYCARET_FUNCTIONS = [
         "example": "rf_model = create_model('rf', fold=5)"
     },
     {
+        "category": "model selection",
+        "function": "ensemble_model",
+        "description": "Combines multiple models to improve performance using techniques like Bagging or Boosting.",
+        "optional": True,
+        "supported_tasks": ["classification", "regression", "timeseries_forecasting"],
+        "parameters": {
+            "estimator": "The trained model object to be ensembled.",
+            "method": "Ensembling method: 'Bagging' or 'Boosting'.",
+            "fold": "Number of folds for cross-validation.",
+            "n_estimators": "Number of base estimators in the ensemble.",
+            "choose_better": "Boolean; if True, returns the better of the base model or ensembled model.",
+            "optimize": "The metric used to optimize the ensemble."
+        },
+        "example": "bagged_rf = ensemble_model(rf_model, method='Bagging')"
+    },
+    {
+        "category": "model selection",
+        "function": "blend_models",
+        "description": "Trains a Soft Voting / Majority Rule classifier for select models.",
+        "optional": True,
+        "supported_tasks": ["classification", "regression", "timeseries_forecasting"],
+        "parameters": {
+            "estimator_list": "List of trained model objects to be blended.",
+            "fold": "Number of folds for cross-validation.",
+            "round": "Number of decimal places for score grid.",
+            "choose_better": "Boolean; if True, returns the better of the best model or blended model.",
+            "optimize": "The metric used to optimize the blend."
+        },
+        "example": "blender = blend_models(estimator_list=[m1, m2, m3])"
+    },
+    {
+        "category": "model selection",
+        "function": "stack_models",
+        "description": "Trains a meta-model over a list of estimators to improve prediction accuracy.",
+        "optional": True,
+        "supported_tasks": ["classification", "regression"],
+        "parameters": {
+            "estimator_list": "List of trained model objects to be stacked.",
+            "meta_model": "The trained model object to be used as a meta-model (default: LogisticRegression/Ridge).",
+            "fold": "Number of folds for cross-validation.",
+            "method": "Prediction method for base estimators ('auto', 'predict_proba', 'decision_function', 'predict').",
+            "choose_better": "Boolean; if True, returns the better of the best model or stacked model.",
+            "optimize": "The metric used to optimize the stack."
+        },
+        "example": "stacker = stack_models(estimator_list=[m1, m2, m3])"
+    },
+    {
         "category": "analysis",
         "function": "evaluate_model",
         "description": "Provides an interactive UI to view and toggle between all available performance plots.",
@@ -163,18 +210,10 @@ PYCARET_FUNCTIONS = [
 
 # --- SHARED SEARCH INSTRUCTIONS ---
 SHARED_SEARCH_INSTRUCTIONS = (
-    "\n\n### RESEARCH CAPABILITIES:\n"
-    "Access the `google_search_tool` for internet research. "
-    "**MANDATORY: During the PLANNING PHASE, use this tool ONLY to research technical facts regarding PyCaret or Pandas.**\n"
-    "Research constraints are strictly enforced:\n"
-    "- **LIBRARIES ONLY**: Limit queries to official documentation for PyCaret and Pandas.\n"
-    "- **NO DATASETS**: Do not research dataset schemas, descriptions, or sources.\n"
-    "- **NO SUMMARIES**: Do not ask for summaries or general context; request only specific technical data.\n"
-    "**CRITICAL**: The tool will return 'unable to find' for any query involving datasets, summarization, or unrelated libraries.\n\n"
-    "### DATA ANALYTICS:\n"
+    "\n\n### DATA ANALYTICS:\n"
     "- **CSV ANALYTICS**: Use the `csv_analytics_tool` to retrieve technical metadata (schemas, distributions, null counts) for any provided CSV path. This is MANDATORY for precise pipeline design.\n"
     "- **SESSION ID**: Use the `session_id_generator_tool` to generate a unique ID for the current run. This ID MUST be used for directory isolation.\n\n"
     "### CODE EXECUTION:\n"
-    "- **NO NATIVE TOOLS**: Do not use `google:python_interpreter` or any other native tool for code execution.\n"
-    "- **MARKDOWN ONLY**: Always wrap Python code in ```python Markdown blocks for the `UnsafeLocalCodeExecutor` to process.\n"
+    "- **STRICT FUNCTION LIMIT**: You MUST ONLY use the PyCaret functions explicitly listed in the `PYCARET_FUNCTIONS` table. Use of any other PyCaret function is strictly prohibited.\n"
+    "- **MARKDOWN CODE BLOCKS**: Always wrap Python code in ```python Markdown blocks to trigger the internal code execution system. You MUST NOT attempt to call any other external code execution tool.\n"
 )

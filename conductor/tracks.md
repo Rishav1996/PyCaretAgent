@@ -10,3 +10,5 @@ This file tracks the status of major workstreams in the project.
 | `reporting` | Experiment Tracking: Exhaustive local logging. | ✅ Done | `utils/instructions/*.py` |
 | `documentation` | Conductor setup and README updates. | ✅ Done | `conductor/`, `README.md` |
 | `cleanup` | Codebase optimization: Removal of unused imports, functions, and tools. | ✅ Done | `pycaretagent/`, `README.md` |
+| `prompt-eng` | Prompt Engineering: Added ensemble/blend/stack functions and strict function limits. | ✅ Done | `pycaretagent/utils/instructions/common_prompt.py` |
+| `remove-search` | Removed Google Search capabilities (Agent, Tool, and associated instructions) for focused offline execution. | ✅ Done | `pycaretagent/utils/tools/google_search_tool.py`, `pycaretagent/utils/instructions/google_search_prompt.py` |

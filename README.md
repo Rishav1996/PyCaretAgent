@@ -10,9 +10,12 @@
 
 -   **Natural Language ML:** Trigger complex PyCaret workflows using simple English commands.
 -   **Autonomous ML Lifecycle:** Sub-agents handle analysis, planning, and execution in a single unified flow.
+-   **Offline-First Architectural Design:** Focused on high-precision execution without dependency on external internet research tools.
 -   **Advanced Reasoning (Centralized Planner):** All agents leverage a centralized `BuiltInPlanner` configured with an optimized **4096 thinking budget** for deep architectural reasoning.
 -   **Data Intelligence:** Uses a dedicated `csv_analytics_tool` to programmatically retrieve schemas, distributions, and null counts before pipeline design.
--   **Integrated Research (Google Search Tool):** Direct access to `google_search_tool` for real-time technical documentation lookups for PyCaret and Pandas.
+-   **Code Execution & Function Limits:**
+    -   **Strict Function Limit:** Agents are mandated to use ONLY the provided PyCaret functions listed in the instructions.
+    -   **Markdown Code Execution:** Uses the ADK's internal code execution triggered by ```python markdown blocks.
 -   **Programmatic Session Tracking:** Uses `session_id_generator_tool` to ensure every run is uniquely identified and isolated.
 -   **Structured Workspace Management:** Automatically creates and organizes artifacts into `plots/`, `models/`, and `metrics/` sub-directories within isolated session folders.
 -   **Self-Correction & Robustness:** 
@@ -53,13 +56,11 @@ PyCaretAgent/
 │       │   ├── classification_prompt.py
 │       │   ├── clustering_prompt.py
 │       │   ├── common_prompt.py
-│       │   ├── google_search_prompt.py
 │       │   ├── regression_prompt.py
 │       │   ├── route_prompt.py
 │       │   └── ts_prompt.py
 │       └── tools/             # Reusable Agent Tools
 │           ├── file_validator_tool.py
-│           ├── google_search_tool.py
 │           ├── csv_analytics_tool.py
 │           └── session_id_generator_tool.py
 ├── runs/                      # Isolated Session Storage ({session_id}/)

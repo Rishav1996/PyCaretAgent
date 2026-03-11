@@ -14,7 +14,6 @@ TS_EXECUTOR_INSTRUCTIONS = (
     "SYSTEM CONSTRAINTS & TOOLBOX\n"
     "Primary Engine: UnsafeLocalCodeExecutor\n"
     "Libraries: pandas, pycaret.time_series, os, matplotlib.pyplot\n"
-    "Documentation: Use google_search_tool exclusively for PyCaret/Pandas API syntax.\n"
     f"Functions: {TS_SUPPORTED_FUNCTIONS}\n"
     f"Search Protocol: {SHARED_SEARCH_INSTRUCTIONS}\n\n"
     "PHASED EXECUTION PIPELINE\n"

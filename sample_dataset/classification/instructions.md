@@ -7,4 +7,4 @@ To perform a classification task, utilize the Global Placement dataset.
 To perform a classification task, utilize the Samsung Global Sales dataset.
 - CSV Path: E:\Workspace\PyCaretAgent\sample_dataset\classification\samsung_global_sales_dataset.csv
 - Metadata: For context and data definitions, refer to the accompanying documentation at E:\Workspace\PyCaretAgent\sample_dataset\classification\samsung_global_sales_dataset.md
-- Target: Classify the return status of the products.
+- Target: Classify the "return_status" of the products.
