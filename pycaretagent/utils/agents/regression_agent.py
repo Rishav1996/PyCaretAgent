@@ -11,6 +11,7 @@ from pycaretagent.utils.callbacks import (
 )
 from pycaretagent.utils.tools.csv_analytics_tool import csv_analytics_tool
 from pycaretagent.utils.tools.session_id_generator_tool import session_id_generator_tool
+from pycaretagent.utils.agents.deploy_agent import get_deploy_agent
 from pycaretagent.utils.instructions.regression_prompt import (
     REGRESSION_EXECUTOR_INSTRUCTIONS
 )
@@ -26,5 +27,6 @@ regression_agent = LlmAgent(
     code_executor=UnsafeLocalCodeExecutor(error_retry_attempts=10),
     planner=BUILTIN_PLANNER,
     tools=[csv_analytics_tool, session_id_generator_tool],
+    sub_agents=[get_deploy_agent()],
     after_agent_callback=extract_session_id_callback
 )

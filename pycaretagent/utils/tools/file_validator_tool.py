@@ -45,5 +45,16 @@ def check_csv_presence(file_path: str) -> dict:
             "message": f"File '{file_path}' is not a CSV file."
         }
 
-# Export the function as an ADK tool
+def check_file_exists(file_path: str) -> dict:
+    """
+    Checks if a file exists at the specified path.
+    """
+    exists = os.path.exists(file_path)
+    return {
+        "exists": exists,
+        "message": f"File '{file_path}' exists." if exists else f"File '{file_path}' does not exist."
+    }
+
+# Export the functions as ADK tools
 csv_validator_tool = FunctionTool(func=check_csv_presence)
+file_presence_tool = FunctionTool(func=check_file_exists)

@@ -33,6 +33,15 @@ Sub-agents (Classification, Regression, Clustering, Anomaly, Time Series) are im
 -   **Data Intelligence Phase:** Analyzes dataset metadata using `csv_analytics_tool`.
 -   **Architectural Phase:** Designs the ML pipeline and generates a unique `SESSION_ID`.
 -   **Execution Phase:** Implements the pipeline using PyCaret, saving all code, data snapshots, models, and visualizations.
+-   **Verification & Deployment Phase:** Handover to `deploy_agent` to create a production package in `runs/{session_id}/deploy/` (running on **Port 5000**):
+    -   `deploy.py`: FastAPI REST API wrapper with Pydantic data models.
+    -   `test.py`: Automated integration test script for the API.
+    -   `requirements.txt`: Environment dependencies for deployment.
+    -   `dockerfile`: Containerization script for cloud deployment (python:3.11-slim).
+    -   `local-instructions.md`: Step-by-step guide for local Docker deployment.
+    -   `aws-instructions.md`: Guide for deploying to AWS (ECR/ECS).
+    -   `gcp-instructions.md`: Guide for deploying to GCP (Cloud Run).
+    -   `azure-instructions.md`: Guide for deploying to Azure (ACR/ACI).
 -   **Organization Phase:** Persists all artifacts into a structured directory hierarchy.
 
 ## 📁 Project Structure
@@ -49,6 +58,7 @@ PyCaretAgent/
 │       │   ├── anomaly_agent.py
 │       │   ├── classification_agent.py
 │       │   ├── clustering_agent.py
+│       │   ├── deploy_agent.py
 │       │   ├── regression_agent.py
 │       │   └── ts_agent.py
 │       ├── instructions/      # Role-based System Prompts (Optimized)
@@ -56,11 +66,13 @@ PyCaretAgent/
 │       │   ├── classification_prompt.py
 │       │   ├── clustering_prompt.py
 │       │   ├── common_prompt.py
+│       │   ├── deploy_prompt.py
 │       │   ├── regression_prompt.py
 │       │   ├── route_prompt.py
 │       │   └── ts_prompt.py
 │       └── tools/             # Reusable Agent Tools
 │           ├── file_validator_tool.py
+│           ├── file_ops_tool.py       # Safe Write/Copy/Find operations
 │           ├── csv_analytics_tool.py
 │           └── session_id_generator_tool.py
 ├── runs/                      # Isolated Session Storage ({session_id}/)

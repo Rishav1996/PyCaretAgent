@@ -5,12 +5,13 @@
 
 ## Key Goals
 - **Natural Language ML**: Enable complex data science tasks through conversation.
-- **Sequential Precision**: Ensure high-quality results via mandatory Planner -> Executor pipelines.
+- **Sequential Precision**: Ensure high-quality results via structured Architect -> Deploy pipelines.
 - **Isolated Artifacts**: Local session-based storage for all models and outputs.
-- **Research-Driven**: Integrated internet research for technical verification during planning.
+- **Production Readiness**: Automated generation of FastAPI endpoints and Docker containerization.
 
 ## Product Features
 - **Multi-Module Support**: Classification, Regression, Clustering, Anomaly Detection, and Time Series Forecasting.
 - **Deep Reasoning**: Built-in thinking budget for planners to handle complex requirements.
 - **Production-Ready Artifacts**: Automatic session-based artifact isolation in the `runs/` directory.
+- **FastAPI & Docker Integration**: Every task ends with a fully containerized API wrapper on port 5000.
 - **Self-Healing Execution**: Automatic error detection and retry mechanism.

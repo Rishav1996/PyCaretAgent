@@ -26,9 +26,12 @@ The project facilitates a complete machine learning lifecycle
         - `config.py`: Centralized configuration (Models and Shared Planners).
         - `callbacks.py`: Centralized execution flow logic (Session ID extraction, state management).
         - `agents/`: Specialized Sub-Agent definitions (Classification, Regression, etc.).
+            - `deploy_agent.py`: Post-training artifact verification.
         - `instructions/`: Role-based system prompts (Senior ML Automation Architect).
+            - `deploy_prompt.py`: Deployment logic (generates Local, AWS, GCP, Azure guides).
         - `tools/`: Reusable agent tools.
             - `file_validator_tool.py`: CSV path validation.
+            - `file_ops_tool.py`: Safe Write/Copy/Find operations.
             - `csv_analytics_tool.py`: Programmatic pandas metadata retrieval (info, describe).
             - `session_id_generator_tool.py`: Unique run identification.
 - `runs/`: Local storage for session-specific artifacts (`{session_id}/`).
@@ -39,7 +42,7 @@ The project facilitates a complete machine learning lifecycle
 
 ## Development Guidelines
 
-- **Simplified Agent Architecture:** Sub-agents are single-agent executors (Automation Architects) that handle analysis, planning, and code execution.
+- **Simplified Agent Architecture:** Sub-agents are single-agent executors (Automation Architects) that handle analysis, planning, and code execution. Use `get_deploy_agent()` to create fresh instances for each parent.
 - **Import Convention:** Always use `google.adk` for imports from the Google Generative AI SDK.
 - **Centralized Components:**
     - **Planners:** Use the `BUILTIN_PLANNER` (4096 budget) from `config.py` for all sub-agents.
@@ -47,6 +50,7 @@ The project facilitates a complete machine learning lifecycle
 - **Data Intelligence:** MANDATORY: Use `csv_analytics_tool` to evaluate schemas before designing the PyCaret setup.
 - **Session Tracking:** MANDATORY: Call `session_id_generator_tool` at the start of every run to establish directory isolation.
 - **Instruction Management:** Prompts are centralized in `pycaretagent/utils/instructions/`. Use the `SHARED_SEARCH_INSTRUCTIONS` for consistent research and data analytics protocols. **MANDATORY: Agents must use ONLY the provided PyCaret functions.**
+- **Deployment Protocol:** Every task architect MUST transfer control to `deploy_agent` at the end. The deployment package must run on **Port 5000** and use `python:3.11-slim`.
 - **Error Resilience:** Agents use `error_retry_attempts=10` to automatically fix code on failure. 
 - **Task Finality:** Agents must provide a final summary and conclude the task to exit the control loop upon success.
 - **Workspace Hierarchy:** All artifacts must be saved under `runs/{session_id?}/` and organized into `plots/`, `models/`, and `metrics/`.
