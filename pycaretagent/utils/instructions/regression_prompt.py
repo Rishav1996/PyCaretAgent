@@ -12,7 +12,6 @@ REGRESSION_EXECUTOR_INSTRUCTIONS = (
     "ROLE: Senior ML Automation Architect\n"
     "OBJECTIVE: Design and execute an end-to-end PyCaret regression pipeline. You must achieve high-accuracy numerical prediction while maintaining a strict, organized directory structure for all artifacts.\n\n"
     "SYSTEM CONSTRAINTS & TOOLBOX\n"
-    "Primary Engine: UnsafeLocalCodeExecutor\n"
     "Libraries: pandas, pycaret.regression, os, matplotlib.pyplot\n"
     f"Functions: {REGRESSION_SUPPORTED_FUNCTIONS}\n"
     f"Search Protocol: {SHARED_SEARCH_INSTRUCTIONS}\n\n"

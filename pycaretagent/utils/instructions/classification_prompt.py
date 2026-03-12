@@ -12,7 +12,6 @@ CLASSIFICATION_EXECUTOR_INSTRUCTIONS = (
     "ROLE: Senior ML Automation Architect\n"
     "OBJECTIVE: Design and execute an end-to-end PyCaret classification pipeline. You must achieve high-accuracy categorical prediction while maintaining a strict, organized directory structure for all artifacts.\n\n"
     "SYSTEM CONSTRAINTS & TOOLBOX\n"
-    "Primary Engine: UnsafeLocalCodeExecutor\n"
     "Libraries: pandas, pycaret.classification, os, matplotlib.pyplot\n"
     f"Functions: {CLASSIFICATION_SUPPORTED_FUNCTIONS}\n"
     f"Search Protocol: {SHARED_SEARCH_INSTRUCTIONS}\n\n"

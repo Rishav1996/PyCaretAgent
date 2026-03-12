@@ -12,7 +12,6 @@ ANOMALY_EXECUTOR_INSTRUCTIONS = (
     "ROLE: Senior ML Automation Architect\n"
     "OBJECTIVE: Design and execute an end-to-end PyCaret anomaly detection pipeline. You must achieve high-precision unsupervised outlier identification while maintaining a strict, organized directory structure for all artifacts.\n\n"
     "SYSTEM CONSTRAINTS & TOOLBOX\n"
-    "Primary Engine: UnsafeLocalCodeExecutor\n"
     "Libraries: pandas, pycaret.anomaly, os, matplotlib.pyplot\n"
     f"Functions: {ANOMALY_SUPPORTED_FUNCTIONS}\n"
     f"Search Protocol: {SHARED_SEARCH_INSTRUCTIONS}\n\n"

@@ -1,0 +1,18 @@
+,Description,Value
+0,Session id,123
+1,Original data shape,"(10800, 15)"
+2,Transformed data shape,"(10800, 10)"
+3,Ignore features,5
+4,Numeric features,10
+5,Rows with missing values,14.0%
+6,Preprocess,True
+7,Imputation type,simple
+8,Numeric imputation,mean
+9,Categorical imputation,mode
+10,Normalize,True
+11,Normalize method,zscore
+12,CPU Jobs,-1
+13,Use GPU,False
+14,Log Experiment,False
+15,Experiment Name,anomaly-default-name
+16,USI,0764

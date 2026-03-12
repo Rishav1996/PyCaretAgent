@@ -1,0 +1,2 @@
+   Silhouette  Calinski-Harabasz  Davies-Bouldin  Homogeneity  Rand Index  Completeness
+0      0.0852          3372.6011          2.8877            0           0             0

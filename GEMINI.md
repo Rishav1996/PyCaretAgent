@@ -3,7 +3,7 @@
 ## Project Overview
 
 `PyCaretAgent` is an agentic extension of the **PyCaret** library. It leverages the **Google Generative AI SDK (google-adk)** to create a high-precision autonomous ML system:
-- **Root Agent (Router):** The primary entry point (an `Agent`) that interacts with the user, validates requirements (e.g., CSV existence), and delegates work.
+- **Supervisor Agent (Router):** The primary entry point (an `Agent`) that interacts with the user, validates requirements (e.g., CSV existence), and delegates work.
 - **Specialized Sub-Agents:** Tasks like Classification and Regression are handled by **Senior ML Automation Architects** (executors) that manage the entire ML lifecycle in a unified flow.
 - **Offline-First Architecture:** The system is designed for high-precision autonomous execution using local tools and analytics, eliminating dependency on internet-based research agents.
 

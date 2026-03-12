@@ -1,0 +1,17 @@
+,Description,Value
+0,Session id,123
+1,Original data shape,"(18249, 10)"
+2,Transformed data shape,"(18249, 8)"
+3,Ignore features,2
+4,Numeric features,8
+5,Preprocess,True
+6,Imputation type,simple
+7,Numeric imputation,mean
+8,Categorical imputation,mode
+9,Normalize,True
+10,Normalize method,zscore
+11,CPU Jobs,-1
+12,Use GPU,False
+13,Log Experiment,False
+14,Experiment Name,anomaly-default-name
+15,USI,b214

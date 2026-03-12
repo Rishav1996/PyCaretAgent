@@ -28,5 +28,6 @@ classification_agent = LlmAgent(
     planner=BUILTIN_PLANNER,
     tools=[csv_analytics_tool, session_id_generator_tool],
     sub_agents=[get_deploy_agent()],
+    disallow_transfer_to_parent=True,
     after_agent_callback=extract_session_id_callback
 )

@@ -12,7 +12,6 @@ CLUSTERING_EXECUTOR_INSTRUCTIONS = (
     "ROLE: Senior ML Automation Architect\n"
     "OBJECTIVE: Design and execute an end-to-end PyCaret clustering pipeline. You must achieve high-precision unsupervised pattern discovery while maintaining a strict, organized directory structure for all artifacts.\n\n"
     "SYSTEM CONSTRAINTS & TOOLBOX\n"
-    "Primary Engine: UnsafeLocalCodeExecutor\n"
     "Libraries: pandas, pycaret.clustering, os, matplotlib.pyplot\n"
     f"Functions: {CLUSTERING_SUPPORTED_FUNCTIONS}\n"
     f"Search Protocol: {SHARED_SEARCH_INSTRUCTIONS}\n\n"

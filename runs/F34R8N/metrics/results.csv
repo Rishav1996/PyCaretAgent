@@ -1,0 +1,25 @@
+,Model,MASE,RMSSE,MAE,RMSE,MAPE,SMAPE,TT (Sec)
+huber_cds_dt,Huber w/ Cond. Deseasonalize & Detrending,0.8546,0.6719,7.5529,7.5529,1.2085,0.5315,0.0533
+arima,ARIMA,0.8669,0.6815,7.6613,7.6613,1.2335,0.5345,0.0667
+ridge_cds_dt,Ridge w/ Cond. Deseasonalize & Detrending,0.8701,0.6841,7.69,7.69,1.2361,0.5357,0.3567
+omp_cds_dt,Orthogonal Matching Pursuit w/ Cond. Deseasonalize & Detrending,0.8701,0.6841,7.69,7.69,1.2361,0.5357,0.0567
+lr_cds_dt,Linear w/ Cond. Deseasonalize & Detrending,0.8701,0.6841,7.69,7.69,1.2361,0.5357,0.3233
+lightgbm_cds_dt,Light Gradient Boosting w/ Cond. Deseasonalize & Detrending,0.8707,0.6846,7.6959,7.6959,1.3225,0.5208,0.1767
+croston,Croston,0.8721,0.6857,7.7084,7.7084,1.1168,0.5521,0.0267
+en_cds_dt,Elastic Net w/ Cond. Deseasonalize & Detrending,0.8761,0.6888,7.743,7.743,1.2364,0.5385,0.3867
+auto_arima,Auto ARIMA,0.8775,0.6899,7.7556,7.7556,1.2337,0.5395,0.3267
+grand_means,Grand Means Forecaster,0.8775,0.6899,7.7556,7.7556,1.2337,0.5395,1.2133
+br_cds_dt,Bayesian Ridge w/ Cond. Deseasonalize & Detrending,0.8801,0.6919,7.7782,7.7782,1.2362,0.5404,0.0767
+ets,ETS,0.8804,0.6922,7.7812,7.7812,1.2358,0.5406,0.06
+exp_smooth,Exponential Smoothing,0.8804,0.6922,7.7813,7.7813,1.2358,0.5406,0.0467
+theta,Theta Forecaster,0.8804,0.6922,7.7813,7.7813,1.2358,0.5406,0.05
+polytrend,Polynomial Trend Forecaster,0.8804,0.6922,7.7813,7.7813,1.2358,0.5406,1.2067
+llar_cds_dt,Lasso Least Angular Regressor w/ Cond. Deseasonalize & Detrending,0.8806,0.6923,7.7829,7.7829,1.2362,0.5406,0.0567
+lasso_cds_dt,Lasso w/ Cond. Deseasonalize & Detrending,0.8806,0.6923,7.7829,7.7829,1.2362,0.5406,0.0433
+gbr_cds_dt,Gradient Boosting w/ Cond. Deseasonalize & Detrending,0.9703,0.7629,8.5757,8.5757,1.3201,0.5731,0.1133
+ada_cds_dt,AdaBoost w/ Cond. Deseasonalize & Detrending,0.9771,0.7682,8.6352,8.6352,1.3543,0.57,0.0567
+knn_cds_dt,K Neighbors w/ Cond. Deseasonalize & Detrending,1.2438,0.9779,10.9936,10.9936,1.665,0.6429,0.0667
+rf_cds_dt,Random Forest w/ Cond. Deseasonalize & Detrending,1.4119,1.11,12.4781,12.4781,1.9134,0.6825,0.15
+naive,Naive Forecaster,1.6218,1.2752,14.3333,14.3333,1.2798,0.985,1.57
+et_cds_dt,Extra Trees w/ Cond. Deseasonalize & Detrending,2.0318,1.5974,17.957,17.957,2.4305,0.882,0.1067
+dt_cds_dt,Decision Tree w/ Cond. Deseasonalize & Detrending,2.0375,1.6019,18.0069,18.0069,2.4328,0.8854,0.06

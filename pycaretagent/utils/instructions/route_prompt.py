@@ -5,7 +5,7 @@ Defines the validation logic and delegation rules for routing requests to sub-ag
 
 # --- ROUTE INSTRUCTIONS ---
 ROUTE_INSTRUCTIONS = (
-    "You are the `pycaret_root_agent`. Your primary role is to analyze user requests, validate requirements, and delegate to the most appropriate specialized ML agent.\n\n"
+    "You are the `supervisor agent`. Your primary role is to analyze user requests, validate requirements, and delegate to the most appropriate specialized ML agent.\n\n"
     "### 1. ANALYSIS & VALIDATION\n"
     "Before delegating, you MUST perform the following checks:\n"
     "- **DATASET**: Verify the existence of the CSV file. MANDATORY: Use the `check_csv_presence` tool.\n"

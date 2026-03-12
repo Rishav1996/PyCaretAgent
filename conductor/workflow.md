@@ -2,10 +2,9 @@
 
 The following defines the end-to-end operational lifecycle of the PyCaretAgent system.
 
-## 1. Requirement Validation (Root Agent)
+## 1. Requirement Validation (Supervisor Agent)
 - **Tool**: `check_csv_presence`
-- **Action**: Validates local file paths.
-- **Outcome**: Confirms CSV existence, target variable (if applicable), and task type (Classification, Regression, etc.).
+- **Action**: Validates local file paths and identifies task type.
 
 ## 2. Data Intelligence & Execution (Specialized Architect)
 - **Role**: Senior ML Automation Architect.

@@ -4,7 +4,7 @@
 
 ## 🚀 Overview
 
-`PyCaretAgent` implements a high-precision autonomous ML system. A **Root Agent** (Router) orchestrates specialized **Sub-Agents** (Classification, Regression, etc.), which are designed as **Senior ML Automation Architects** capable of handling the entire lifecycle from data intelligence to model persistence.
+`PyCaretAgent` implements a high-precision autonomous ML system. A **Supervisor Agent** (Router) orchestrates specialized **Sub-Agents** (Classification, Regression, etc.), which are designed as **Senior ML Automation Architects** capable of handling the entire lifecycle from data intelligence to model persistence.
 
 ## ✨ Key Features
 
@@ -25,7 +25,7 @@
 
 ## 🏗️ Architecture
 
-### 1. Root Agent
+### 1. Supervisor Agent
 The primary entry point (an `Agent`) that validates user requirements (e.g., CSV path validation via `csv_validator_tool`) and routes the request to the appropriate specialized sub-agent.
 
 ### 2. Specialized Sub-Agents (Senior ML Automation Architects)
@@ -104,6 +104,20 @@ Initialize the root agent and provide a path to your dataset:
 from pycaretagent.agent import root_agent
 ```
 Example prompt: *"Perform a classification task on 'sample_dataset/classification/heart.csv' where the target is 'target'."*
+
+## 📊 Sample Runs
+
+For reference, the following session IDs in the `runs/` directory correspond to specific ML tasks:
+
+| Task Type | Session ID | Key Artifacts |
+| :--- | :--- | :--- |
+| **Regression** | `S3Y66V` | `final_regression_model.pkl`, `residuals.png`, `feature_importance.png` |
+| **Classification** | `WHGV1L` | `final_pipeline.pkl`, `feature_importance.png`, `results.csv` |
+| **Time Series** | `F34R8N` | `final_ts_model.pkl`, `results.csv` |
+| **Clustering** | `IFHGX6` | `amazon_clustering_model.pkl`, `logs.txt` |
+| **Anomaly Detection** | `DC04XC` | `iforest_mango_model.pkl`, `price_dist.png` |
+
+Each run includes a complete `deploy/` package with FastAPI wrappers and multi-cloud deployment guides.
 
 ## 📄 License
 This project is licensed under the MIT License.

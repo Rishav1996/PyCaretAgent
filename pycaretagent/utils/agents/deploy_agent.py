@@ -21,5 +21,6 @@ def get_deploy_agent():
         model=DEFAULT_MODEL,
         generate_content_config=GENERATE_CONTENT_CONFIG,
         planner=BUILTIN_PLANNER,
-        tools=[csv_analytics_tool, file_writer_tool, file_copy_tool, find_file_tool]
+        tools=[csv_analytics_tool, file_writer_tool, file_copy_tool, find_file_tool],
+        disallow_transfer_to_parent=True
     )

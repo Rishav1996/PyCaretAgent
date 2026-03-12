@@ -1,0 +1,19 @@
+,Model,MAE,MSE,RMSE,R2,RMSLE,MAPE,TT (Sec)
+lr,Linear Regression,0.0025,0.0,0.0029,1.0,0.0001,0.0001,0.697
+ridge,Ridge Regression,0.0025,0.0,0.0029,1.0,0.0001,0.0001,0.03
+lar,Least Angle Regression,0.0025,0.0,0.0029,1.0,0.0001,0.0001,0.029
+br,Bayesian Ridge,0.0025,0.0,0.0029,1.0,0.0001,0.0001,0.031
+huber,Huber Regressor,0.5031,0.3929,0.6256,0.9985,0.0182,0.0124,0.156
+lasso,Lasso Regression,0.6248,0.5957,0.7717,0.9977,0.0287,0.017,0.036
+llar,Lasso Least Angle Regression,0.6248,0.5957,0.7717,0.9977,0.0287,0.017,0.028
+par,Passive Aggressive Regressor,0.6692,0.7298,0.8008,0.9972,0.0205,0.0154,0.055
+lightgbm,Light Gradient Boosting Machine,0.9164,1.3212,1.1488,0.9949,0.0345,0.0226,0.249
+en,Elastic Net,1.0745,1.7451,1.3209,0.9933,0.0456,0.0293,0.032
+gbr,Gradient Boosting Regressor,1.167,2.1465,1.4649,0.9917,0.0442,0.0298,0.956
+et,Extra Trees Regressor,1.6673,4.5516,2.1331,0.9825,0.0643,0.0435,1.706
+rf,Random Forest Regressor,2.1145,7.0655,2.6576,0.9728,0.075,0.0537,3.121
+dt,Decision Tree Regressor,4.1407,26.9494,5.1901,0.8961,0.1281,0.096,0.082
+ada,AdaBoost Regressor,4.3874,29.1502,5.3978,0.8876,0.1433,0.1155,0.517
+knn,K Neighbors Regressor,11.845,211.6049,14.5452,0.1842,0.3357,0.317,0.057
+omp,Orthogonal Matching Pursuit,12.1337,216.4396,14.7108,0.1658,0.3418,0.331,0.027
+dummy,Dummy Regressor,13.1415,259.7551,16.1146,-0.0006,0.3727,0.3715,0.025

@@ -12,7 +12,6 @@ TS_EXECUTOR_INSTRUCTIONS = (
     "ROLE: Senior ML Automation Architect\n"
     "OBJECTIVE: Design and execute an end-to-end PyCaret time-series forecasting pipeline. You must achieve high-precision temporal prediction while maintaining a strict, organized directory structure for all artifacts.\n\n"
     "SYSTEM CONSTRAINTS & TOOLBOX\n"
-    "Primary Engine: UnsafeLocalCodeExecutor\n"
     "Libraries: pandas, pycaret.time_series, os, matplotlib.pyplot\n"
     f"Functions: {TS_SUPPORTED_FUNCTIONS}\n"
     f"Search Protocol: {SHARED_SEARCH_INSTRUCTIONS}\n\n"
