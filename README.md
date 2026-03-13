@@ -85,7 +85,7 @@ PyCaretAgent/
 ## 🛠️ Getting Started
 
 ### Prerequisites
--   Python 3.12 or higher.
+-   Python 3.11 or higher.
 
 ### Installation
 1.  **Clone the repository:**
